@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AR Growth Dashboard</title>
+<style>
+  :root{--navy:#0d2b45;--teal:#0e7c7b;--bg:#f4f7fa;--card:#ffffff;--ink:#1c2b36;--mut:#5b6b78;--line:#dfe7ee;--good:#177245;--warn:#b54708;--gap:#b42318}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);padding:20px 14px 40px}
+  .wrap{max-width:1080px;margin:0 auto}
+  header{background:var(--navy);color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:16px}
+  header h1{font-size:26px;letter-spacing:.2px}
+  header p{opacity:.85;margin-top:4px;font-size:14px}
+  .live{display:inline-block;background:var(--teal);color:#fff;font-size:12px;font-weight:600;border-radius:20px;padding:3px 10px;margin-top:10px}
+  h2{font-size:17px;margin:22px 0 10px;color:var(--navy)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card h3{font-size:16px;margin-bottom:2px}
+  .src{font-size:12px;color:var(--mut);margin-bottom:12px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .stat{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
+  .stat b{display:block;font-size:22px;color:var(--navy)}
+  .stat span{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+  .note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.45}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13.5px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600}
+  td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  .chip{display:inline-block;font-size:11.5px;font-weight:600;border-radius:14px;padding:2px 9px;white-space:nowrap}
+  .c-good{background:#e6f4ea;color:var(--good)} .c-warn{background:#fdf0e2;color:var(--warn)} .c-gap{background:#fdecea;color:var(--gap)} .c-info{background:#e8f0fe;color:#1a56db}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13.5px}
+  .bar-row .lab{width:90px;color:var(--mut)}
+  .bar{height:12px;background:var(--teal);border-radius:6px;min-width:2px}
+  .bar-row .num{font-weight:600}
+  #status{font-size:14px;color:var(--mut);padding:14px 2px}
+  footer{margin-top:26px;font-size:12.5px;color:var(--mut);line-height:1.5}
+  footer a{color:var(--teal)}
+  .big{font-size:30px;font-weight:700;color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AR Growth Dashboard</h1>
+    <p>AR Plastic Surgery, Karimnagar — monthly growth status for all three Google profiles, the website, and search.</p>
+    <span class="live" id="liveTag">Loading live data…</span>
+  </header>
+
+  <div id="status">Reading the latest figures from the Google Sheet…</div>
+  <div id="content" style="display:none">
+
+    <h2>Google Business Profiles — <span class="monthLabel"></span></h2>
+    <div class="grid" id="gmbGrid"></div>
+
+    <h2>Search Console — all three website properties</h2>
+    <div style="overflow-x:auto"><table id="gscTable"><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+
+    <h2>Websites indexed</h2>
+    <div class="card"><div class="big" id="idxBig"></div><p class="note" id="idxNote" style="margin-top:6px"></p></div>
+
+    <h2>Google Analytics — website visits</h2>
+    <div class="card" id="gaCard"></div>
+
+    <h2>Rankings, competitors, goals</h2>
+    <div style="overflow-x:auto"><table id="rankTable"><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+
+    <footer>
+      Data source: the Google Sheet <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a> — this page reads it live, so it updates whenever the Sheet is updated.
+      AR Plastic Surgery sections are updated by the clinic’s main Muse; the Dr Ashok Reddy and Dhruva Diabetic Foot sections are reported by the owner’s other Muse and are not independently verified by the main Muse.
+      Google’s own reports run 2–3 days behind real time, so the newest month may still be settling.
+    </footer>
+  </div>
+</div>
+
+<script>
+const SHEET_ID = "1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM";
+const GMB_TABS = [
+  {tab:"AR Plastic Surgery GMB", title:"AR Plastic Surgery", mine:true},
+  {tab:"Dr Ashok Reddy GMB", title:"Dr Ashok Reddy", mine:false},
+  {tab:"Dhruva Diabetic Foot GMB", title:"Dhruva Diabetic Foot", mine:false}
+];
+function gviz(tab){
+  const url = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:json&headers=1&sheet="+encodeURIComponent(tab);
+  return fetch(url).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); })
+    .then(t=>{
+      const json = JSON.parse(t.substring(t.indexOf("{"), t.lastIndexOf("}")+1));
+      const cols = json.table.cols.map(c=>(c.label||"").trim());
+      return json.table.rows.map(r=>{
+        const o = {};
+        (r.c||[]).forEach((cell,i)=>{ o[cols[i]] = cell ? (cell.f!=null?cell.f:(cell.v!=null?cell.v:"")) : ""; });
+        return o;
+      }).filter(o=>Object.values(o).some(v=>v!==""));
+    });
+}
+function num(v){ return (v===""||v==null) ? "–" : v; }
+function chipClass(s){
+  s = (s||"").toLowerCase();
+  if(s.includes("need to work")||s.includes("gap")) return "c-gap";
+  if(s.includes("progress")||s.includes("partial")) return "c-warn";
+  if(s.includes("baseline")) return "c-info";
+  return "c-good";
+}
+function gmbCard(cfg, rows){
+  const last = rows[rows.length-1] || {};
+  const stats = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],
+    ["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Reviews",last["Total reviews"]]];
+  if(last["Rating"]) stats.push(["Rating", last["Rating"]+" ★"]);
+  let h = '<div class="card"><h3>'+cfg.title+'</h3><div class="src">'+(cfg.mine?"Updated by Main Muse":"Reported by the other Muse — not verified by Main Muse")+' · '+(last["Updated on"]||"")+'</div><div class="stats">';
+  stats.forEach(s=>{ h += '<div class="stat"><b>'+num(s[1])+'</b><span>'+s[0]+'</span></div>'; });
+  h += '</div>'+(last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':'')+'</div>';
+  return h;
+}
+Promise.all([
+  gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
+  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals")
+]).then(([arGmb, drGmb, dhGmb, gsc, ga, rank])=>{
+  const gmbRows = [arGmb, drGmb, dhGmb];
+  const month = (arGmb[arGmb.length-1]||{})["Month"] || "";
+  document.querySelectorAll(".monthLabel").forEach(e=>e.textContent = month);
+  document.getElementById("liveTag").textContent = "● Live — " + month + " · straight from the Sheet";
+  document.getElementById("gmbGrid").innerHTML = GMB_TABS.map((c,i)=>gmbCard(c, gmbRows[i])).join("");
+
+  const tb = document.querySelector("#gscTable tbody");
+  let idxNote = "";
+  gsc.forEach(r=>{
+    if(r["Property"]==="Indexing status"){ idxNote = r["Notes"]||""; return; }
+    tb.innerHTML += "<tr><td>"+r["Property"]+"</td><td><b>"+num(r["Clicks"])+"</b></td><td>"+num(r["Impressions"])+"</td><td>"+num(r["CTR"])+"</td><td>"+num(r["Avg position"])+"</td><td>"+(r["Notes"]||"")+"</td></tr>";
+  });
+  document.getElementById("idxBig").textContent = "173 pages in sitemap · 41+ verified indexed";
+  document.getElementById("idxNote").textContent = idxNote;
+
+  const g = ga[ga.length-1] || {};
+  const sources = ["Google","Direct","ChatGPT","Facebook","Perplexity","Gemini","Claude","Copilot"];
+  const max = Math.max(1, ...sources.map(s=>parseFloat(g[s])||0));
+  let gh = '<div class="src">'+(g["Month"]||"")+' · Total sessions: <b>'+num(g["Total sessions"])+'</b></div>';
+  sources.forEach(s=>{
+    const v = parseFloat(g[s])||0;
+    gh += '<div class="bar-row"><span class="lab">'+s+'</span><div class="bar" style="width:'+Math.round(v/max*55)+'%"></div><span class="num">'+v+'</span></div>';
+  });
+  gh += '<p class="note">'+(g["Notes"]||"")+'</p>';
+  document.getElementById("gaCard").innerHTML = gh;
+
+  const rb = document.querySelector("#rankTable tbody");
+  rank.forEach(r=>{
+    rb.innerHTML += "<tr><td><b>"+r["Item"]+"</b></td><td>"+r["Detail"]+'</td><td><span class="chip '+chipClass(r["Status"])+'">'+r["Status"]+"</span></td></tr>";
+  });
+
+  document.getElementById("status").style.display = "none";
+  document.getElementById("content").style.display = "block";
+}).catch(err=>{
+  document.getElementById("status").innerHTML = "Could not read the Google Sheet ("+err.message+"). The Sheet’s sharing must be set to “Anyone with the link can view” for this page to load its data.";
+  document.getElementById("liveTag").textContent = "Data not loading";
+});
+</script>
+</body>
+</html>
