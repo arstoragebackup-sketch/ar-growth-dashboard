@@ -4,81 +4,130 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AR Growth Dashboard</title>
+<link rel="icon" href="logo.png">
 <style>
-  :root{--navy:#0d2b45;--teal:#0e7c7b;--bg:#f4f7fa;--card:#ffffff;--ink:#1c2b36;--mut:#5b6b78;--line:#dfe7ee;--good:#177245;--warn:#b54708;--gap:#b42318}
+  :root{--navy:#0b2a44;--navy2:#103a5c;--teal:#0e7c7b;--gold:#c9a24b;--bg:#eef3f7;--card:#ffffff;--ink:#1b2a36;--mut:#5b6b78;--line:#dde6ee;--good:#177245;--warn:#b54708;--gap:#b42318}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);padding:20px 14px 40px}
-  .wrap{max-width:1080px;margin:0 auto}
-  header{background:var(--navy);color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:16px}
-  header h1{font-size:26px;letter-spacing:.2px}
-  header p{opacity:.85;margin-top:4px;font-size:14px}
-  .live{display:inline-block;background:var(--teal);color:#fff;font-size:12px;font-weight:600;border-radius:20px;padding:3px 10px;margin-top:10px}
-  h2{font-size:17px;margin:22px 0 10px;color:var(--navy)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
-  .card h3{font-size:16px;margin-bottom:2px}
-  .src{font-size:12px;color:var(--mut);margin-bottom:12px}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .stat{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
-  .stat b{display:block;font-size:22px;color:var(--navy)}
-  .stat span{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
-  .note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.45}
-  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13.5px}
-  th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  /* ---------- Splash ---------- */
+  #splash{position:fixed;inset:0;z-index:50;background:radial-gradient(1200px 700px at 50% 30%,var(--navy2),var(--navy));display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .7s ease,visibility .7s}
+  #splash.hide{opacity:0;visibility:hidden}
+  #splash .ring{width:190px;height:190px;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:ringPulse 2.2s ease-in-out infinite}
+  @keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,75,.45)}50%{box-shadow:0 0 0 26px rgba(201,162,75,0)}}
+  #splash img{width:180px;height:180px;border-radius:50%;animation:logoIn 1.4s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 18px 50px rgba(0,0,0,.45)}
+  @keyframes logoIn{0%{transform:scale(.55);opacity:0;filter:blur(6px)}60%{opacity:1}100%{transform:scale(1);opacity:1;filter:blur(0)}}
+  #splash h1{color:#fff;font-size:27px;letter-spacing:3px;margin-top:26px;animation:fadeUp 1s .5s ease both;text-align:center}
+  #splash h2{color:var(--gold);font-size:14px;letter-spacing:5px;font-weight:600;margin-top:7px;animation:fadeUp 1s .8s ease both}
+  #splash p{color:rgba(255,255,255,.65);font-size:12.5px;margin-top:20px;animation:fadeUp 1s 1.15s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  /* ---------- Layout ---------- */
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 14px 44px}
+  header.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:16px;padding:18px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 10px 30px rgba(11,42,68,.25)}
+  header.top img{width:62px;height:62px;border-radius:50%;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  header.top h1{font-size:23px;letter-spacing:.3px}
+  header.top p{opacity:.85;font-size:13.5px;margin-top:2px}
+  .live{margin-left:auto;background:var(--teal);color:#fff;font-size:12px;font-weight:600;border-radius:20px;padding:5px 12px;white-space:nowrap}
+  .view{display:none}
+  .view.active{display:block;animation:viewIn .45s ease both}
+  @keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  h2.sec{font-size:17px;margin:22px 0 12px;color:var(--navy)}
+  /* ---------- Tiles ---------- */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;position:relative;overflow:hidden}
+  .tile:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--teal),var(--gold))}
+  .tile:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,42,68,.16)}
+  .tile h3{font-size:16.5px;color:var(--navy);margin-bottom:3px;padding-right:26px}
+  .tile .sub{font-size:12px;color:var(--mut);margin-bottom:13px}
+  .tile .nums{display:flex;gap:16px;flex-wrap:wrap}
+  .tile .nums div b{display:block;font-size:21px;color:var(--navy)}
+  .tile .nums div span{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+  .tile .open{position:absolute;right:16px;top:16px;color:var(--teal);font-size:19px;font-weight:700}
+  .tile .tagline{font-size:12.5px;color:var(--mut);margin-top:11px;line-height:1.45}
+  /* ---------- Detail ---------- */
+  .back{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border:none;border-radius:22px;padding:8px 16px;font-size:13.5px;font-weight:600;cursor:pointer;margin:20px 0 14px}
+  .back:hover{background:var(--navy2)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(11,42,68,.05)}
+  .card h3{font-size:18px;color:var(--navy)}
+  .src{font-size:12px;color:var(--mut);margin:3px 0 14px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:10px}
+  .stat{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center}
+  .stat b{display:block;font-size:24px;color:var(--navy)}
+  .stat span{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+  .note{font-size:13px;color:var(--mut);margin-top:13px;line-height:1.5}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:14px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;white-space:nowrap}
   td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
   .chip{display:inline-block;font-size:11.5px;font-weight:600;border-radius:14px;padding:2px 9px;white-space:nowrap}
   .c-good{background:#e6f4ea;color:var(--good)} .c-warn{background:#fdf0e2;color:var(--warn)} .c-gap{background:#fdecea;color:var(--gap)} .c-info{background:#e8f0fe;color:#1a56db}
-  .bar-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13.5px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13.5px}
   .bar-row .lab{width:90px;color:var(--mut)}
-  .bar{height:12px;background:var(--teal);border-radius:6px;min-width:2px}
+  .bar{height:13px;background:linear-gradient(90deg,var(--teal),#39a3a2);border-radius:7px;min-width:2px;transition:width 1s ease}
   .bar-row .num{font-weight:600}
-  #status{font-size:14px;color:var(--mut);padding:14px 2px}
-  footer{margin-top:26px;font-size:12.5px;color:var(--mut);line-height:1.5}
+  .big{font-size:29px;font-weight:700;color:var(--navy)}
+  #status{font-size:14px;color:var(--mut);padding:16px 2px}
+  footer{margin-top:28px;font-size:12.5px;color:var(--mut);line-height:1.55}
   footer a{color:var(--teal)}
-  .big{font-size:30px;font-weight:700;color:var(--navy)}
+  @media(max-width:560px){header.top h1{font-size:19px}.live{display:none}}
 </style>
 </head>
 <body>
+
+<div id="splash" title="Tap to enter">
+  <div class="ring"><img src="logo.png" alt="AR Plastic Surgery logo"></div>
+  <h1>AR PLASTIC SURGERY</h1>
+  <h2>GROWTH DASHBOARD</h2>
+  <p>Precision and Perfection · tap to enter</p>
+</div>
+
 <div class="wrap">
-  <header>
-    <h1>AR Growth Dashboard</h1>
-    <p>AR Plastic Surgery, Karimnagar — monthly growth status for all three Google profiles, the website, and search.</p>
-    <span class="live" id="liveTag">Loading live data…</span>
+  <header class="top">
+    <img src="logo.png" alt="AR logo">
+    <div>
+      <h1>AR Growth Dashboard</h1>
+      <p>Monthly growth — Google Business, AI search, website &amp; rankings</p>
+    </div>
+    <span class="live" id="liveTag">Loading…</span>
   </header>
 
   <div id="status">Reading the latest figures from the Google Sheet…</div>
-  <div id="content" style="display:none">
+  <div id="app" style="display:none">
 
-    <h2>Google Business Profiles — <span class="monthLabel"></span></h2>
-    <div class="grid" id="gmbGrid"></div>
+    <!-- HOME -->
+    <section class="view" id="view-home">
+      <h2 class="sec">Growth areas — tap any card to open it</h2>
+      <div class="tiles" id="tiles"></div>
+    </section>
 
-    <h2>Search Console — all three website properties</h2>
-    <div style="overflow-x:auto"><table id="gscTable"><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
-
-    <h2>Websites indexed</h2>
-    <div class="card"><div class="big" id="idxBig"></div><p class="note" id="idxNote" style="margin-top:6px"></p></div>
-
-    <h2>Google Analytics — website visits</h2>
-    <div class="card" id="gaCard"></div>
-
-    <h2>Rankings, competitors, goals</h2>
-    <div style="overflow-x:auto"><table id="rankTable"><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+    <!-- DETAIL VIEWS (filled by script) -->
+    <section class="view" id="view-ar-gmb"></section>
+    <section class="view" id="view-chatgpt"></section>
+    <section class="view" id="view-dhruva"></section>
+    <section class="view" id="view-dr-ashok"></section>
+    <section class="view" id="view-gsc"></section>
+    <section class="view" id="view-analytics"></section>
+    <section class="view" id="view-rankings"></section>
 
     <footer>
-      Data source: the Google Sheet <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a> — this page reads it live, so it updates whenever the Sheet is updated.
+      Data source: the Google Sheet <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a> — this page reads it live on every open, so it updates whenever the Sheet is updated.
       AR Plastic Surgery sections are updated by the clinic’s main Muse; the Dr Ashok Reddy and Dhruva Diabetic Foot sections are reported by the owner’s other Muse and are not independently verified by the main Muse.
-      Google’s own reports run 2–3 days behind real time, so the newest month may still be settling.
+      AI-search figures (ChatGPT, Gemini, Claude) come from periodic audits, not a live feed. Google’s own reports run 2–3 days behind real time.
     </footer>
   </div>
 </div>
 
 <script>
 const SHEET_ID = "1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM";
-const GMB_TABS = [
-  {tab:"AR Plastic Surgery GMB", title:"AR Plastic Surgery", mine:true},
-  {tab:"Dr Ashok Reddy GMB", title:"Dr Ashok Reddy", mine:false},
-  {tab:"Dhruva Diabetic Foot GMB", title:"Dhruva Diabetic Foot", mine:false}
-];
+/* ---------- splash ---------- */
+(function(){
+  const sp = document.getElementById("splash");
+  const hide = ()=>sp.classList.add("hide");
+  sp.addEventListener("click", hide);
+  if(sessionStorage.getItem("arSplash")){ sp.style.display="none"; }
+  else { sessionStorage.setItem("arSplash","1"); setTimeout(hide, 2400); }
+})();
+/* ---------- data ---------- */
 function gviz(tab){
   const url = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:json&headers=1&sheet="+encodeURIComponent(tab);
   return fetch(url).then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); })
@@ -92,61 +141,99 @@ function gviz(tab){
       }).filter(o=>Object.values(o).some(v=>v!==""));
     });
 }
-function num(v){ return (v===""||v==null) ? "–" : v; }
-function chipClass(s){
-  s = (s||"").toLowerCase();
+const num = v => (v===""||v==null||v===undefined) ? "–" : v;
+function chipClass(s){ s=(s||"").toLowerCase();
   if(s.includes("need to work")||s.includes("gap")) return "c-gap";
   if(s.includes("progress")||s.includes("partial")) return "c-warn";
-  if(s.includes("baseline")) return "c-info";
-  return "c-good";
+  if(s.includes("baseline")) return "c-info"; return "c-good"; }
+function countUp(el, target){
+  const n = parseFloat(String(target).replace(/[^0-9.]/g,"")); if(isNaN(n)||n===0){ el.textContent = num(target); return; }
+  const t0 = performance.now(), dur = 900;
+  (function step(t){ const p = Math.min(1,(t-t0)/dur); el.textContent = Math.round(n*(0.2+0.8*p)).toLocaleString("en-IN"); if(p<1) requestAnimationFrame(step); else el.textContent = n.toLocaleString("en-IN"); })(t0);
 }
-function gmbCard(cfg, rows){
-  const last = rows[rows.length-1] || {};
-  const stats = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],
-    ["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Reviews",last["Total reviews"]]];
-  if(last["Rating"]) stats.push(["Rating", last["Rating"]+" ★"]);
-  let h = '<div class="card"><h3>'+cfg.title+'</h3><div class="src">'+(cfg.mine?"Updated by Main Muse":"Reported by the other Muse — not verified by Main Muse")+' · '+(last["Updated on"]||"")+'</div><div class="stats">';
-  stats.forEach(s=>{ h += '<div class="stat"><b>'+num(s[1])+'</b><span>'+s[0]+'</span></div>'; });
-  h += '</div>'+(last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':'')+'</div>';
-  return h;
+function statHTML(pairs){ return '<div class="stats">'+pairs.map(p=>'<div class="stat"><b data-v="'+p[1]+'">'+num(p[1])+'</b><span>'+p[0]+'</span></div>').join("")+'</div>'; }
+function animateStats(root){ root.querySelectorAll(".stat b").forEach(b=>countUp(b, b.dataset.v)); }
+function gmbDetail(id, title, rows, mine){
+  const last = rows[rows.length-1]||{};
+  const pairs = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Messages",last["Messages"]],["Total reviews",last["Total reviews"]]];
+  if(last["Rating"]) pairs.push(["Rating",last["Rating"]+" ★"]);
+  let h = '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>'+title+'</h3><div class="src">'+(mine?"Updated by Main Muse":"Reported by the other Muse — not verified by Main Muse")+' · '+(last["Updated on"]||"")+'</div>'
+    + statHTML(pairs)
+    + (last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':"")
+    + '<div class="tblwrap"><table><thead><tr><th>Month</th><th>Views</th><th>Calls</th><th>Directions</th><th>Website clicks</th><th>Reviews</th><th>Rating</th></tr></thead><tbody>'
+    + rows.map(r=>'<tr><td>'+r["Month"]+'</td><td>'+num(r["Views"])+'</td><td>'+num(r["Calls"])+'</td><td>'+num(r["Directions"])+'</td><td>'+num(r["Website clicks"])+'</td><td>'+num(r["Total reviews"])+'</td><td>'+num(r["Rating"])+'</td></tr>').join("")
+    + '</tbody></table></div></div>';
+  const el = document.getElementById(id); el.innerHTML = h; animateStats(el);
 }
+/* ---------- routing ---------- */
+function go(view){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  const el = document.getElementById("view-"+view); if(el) el.classList.add("active");
+  if(location.hash !== "#"+view) history.replaceState(null,"","#"+view);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+window.addEventListener("hashchange",()=>go((location.hash||"#home").slice(1)));
+
 Promise.all([
   gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
   gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals")
 ]).then(([arGmb, drGmb, dhGmb, gsc, ga, rank])=>{
-  const gmbRows = [arGmb, drGmb, dhGmb];
-  const month = (arGmb[arGmb.length-1]||{})["Month"] || "";
-  document.querySelectorAll(".monthLabel").forEach(e=>e.textContent = month);
-  document.getElementById("liveTag").textContent = "● Live — " + month + " · straight from the Sheet";
-  document.getElementById("gmbGrid").innerHTML = GMB_TABS.map((c,i)=>gmbCard(c, gmbRows[i])).join("");
+  const arL = arGmb[arGmb.length-1]||{}, drL = drGmb[drGmb.length-1]||{}, dhL = dhGmb[dhGmb.length-1]||{}, gaL = ga[ga.length-1]||{};
+  const month = arL["Month"]||"";
+  document.getElementById("liveTag").textContent = "● Live — " + month;
+  const cgRow = rank.find(r=>(r["Item"]||"").toLowerCase().includes("chatgpt"))||{};
 
-  const tb = document.querySelector("#gscTable tbody");
+  /* ----- tiles ----- */
+  const tiles = [
+    {view:"ar-gmb", title:"AR Plastic Surgery — Google Business Growth", sub:"Google Business Profile (GMB) · "+month, nums:[["Views",arL["Views"]],["Calls",arL["Calls"]],["Directions",arL["Directions"]]], tag:"245 reviews at 4.9 ★ · 100% owner response · tap to open the full month report"},
+    {view:"chatgpt", title:"AR Plastic Surgery — ChatGPT Growth", sub:"AI-search visibility · audit 1–2 Nov 2026", nums:[["Named in","217 / 252"],["Ranked 1st","157"],["AI visits (Oct)",gaL["ChatGPT"]]], tag:"How ChatGPT answers Karimnagar plastic-surgery searches — AR's strongest AI channel"},
+    {view:"dhruva", title:"Dhruva Diabetic Foot — GMB Growth", sub:"Google Business Profile · "+month+" · reported by the other Muse", nums:[["Views",dhL["Views"]],["Directions",dhL["Directions"]],["Reviews",dhL["Total reviews"]]], tag:"Reported by the other Muse — not verified by Main Muse"},
+    {view:"dr-ashok", title:"Dr Ashok Reddy — GMB Growth", sub:"Google Business Profile · "+month+" · reported by the other Muse", nums:[["Views",drL["Views"]],["Directions",drL["Directions"]],["Website clicks",drL["Website clicks"]]], tag:"Reported by the other Muse — not verified by Main Muse"},
+    {view:"gsc", title:"Website — Search Console Growth", sub:"All three website properties · "+month, nums:[["Clicks (all)","39"],["Impressions","2,234"],["Pages indexed","41+"]], tag:"https site + old http site + GitHub Pages property, with the indexing report"},
+    {view:"analytics", title:"Website — Analytics Growth", sub:"Google Analytics · "+month, nums:[["Total visits",gaL["Total sessions"]],["From Google",gaL["Google"]],["From ChatGPT",gaL["ChatGPT"]]], tag:"Where the website's visitors came from, including AI referrals"},
+    {view:"rankings", title:"Rankings, Competitors & Goals", sub:"Where AR is on top, where it is behind, what is being worked on", nums:[["Services on top","190"],["Maps #1","96"],["Audited","252"]], tag:"The full 252-service picture — Bandari, Medicover and the gaps to close"}
+  ];
+  document.getElementById("tiles").innerHTML = tiles.map(t=>
+    '<div class="tile" onclick="go(\''+t.view+'\')"><span class="open">›</span><h3>'+t.title+'</h3><div class="sub">'+t.sub+'</div><div class="nums">'
+    + t.nums.map(n=>'<div><b>'+num(n[1])+'</b><span>'+n[0]+'</span></div>').join("")
+    + '</div><div class="tagline">'+t.tag+'</div></div>').join("");
+
+  /* ----- detail views ----- */
+  gmbDetail("view-ar-gmb","AR Plastic Surgery — Google Business (GMB)", arGmb, true);
+  gmbDetail("view-dhruva","Dhruva Diabetic Foot — Google Business (GMB)", dhGmb, false);
+  gmbDetail("view-dr-ashok","Dr Ashok Reddy — Google Business (GMB)", drGmb, false);
+
+  document.getElementById("view-chatgpt").innerHTML =
+    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>AR Plastic Surgery — Growth in ChatGPT</h3><div class="src">AI-search audit, 1–2 Nov 2026 · GA4 referrals for '+month+'</div>'
+    + statHTML([["Services where ChatGPT names AR","217 / 252"],["Services where AR is named 1st","157"],["ChatGPT visits to the website (Oct)",gaL["ChatGPT"]]])
+    + '<p class="note">'+(cgRow["Detail"]||"")+'</p>'
+    + '<p class="note">What this means: when people ask ChatGPT about plastic-surgery services in and around Karimnagar, AR Plastic Surgery is named in 217 of 252 service searches and named first in 157 — the strongest of the AI channels (Gemini names AR in 183, Claude in 33 of the 36 checked). AI tools do not publish live search counts, so this growth is measured by periodic audits and by referral visits in Analytics — the October baseline is 1 ChatGPT-referred visit.</p></div>';
+
   let idxNote = "";
-  gsc.forEach(r=>{
-    if(r["Property"]==="Indexing status"){ idxNote = r["Notes"]||""; return; }
-    tb.innerHTML += "<tr><td>"+r["Property"]+"</td><td><b>"+num(r["Clicks"])+"</b></td><td>"+num(r["Impressions"])+"</td><td>"+num(r["CTR"])+"</td><td>"+num(r["Avg position"])+"</td><td>"+(r["Notes"]||"")+"</td></tr>";
-  });
-  document.getElementById("idxBig").textContent = "173 pages in sitemap · 41+ verified indexed";
-  document.getElementById("idxNote").textContent = idxNote;
+  const gscRows = gsc.filter(r=>{ if(r["Property"]==="Indexing status"){ idxNote = r["Notes"]||""; return false; } return true; });
+  document.getElementById("view-gsc").innerHTML =
+    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Search Console — all three website properties</h3><div class="src">'+month+' · Updated by Main Muse</div>'
+    + '<div class="tblwrap" style="margin-top:2px"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
+    + gscRows.map(r=>'<tr><td>'+r["Property"]+'</td><td><b>'+num(r["Clicks"])+'</b></td><td>'+num(r["Impressions"])+'</td><td>'+num(r["CTR"])+'</td><td>'+num(r["Avg position"])+'</td><td>'+(r["Notes"]||"")+'</td></tr>').join("")
+    + '</tbody></table></div>'
+    + '<h3 style="margin-top:20px">Websites indexed</h3><div class="big" style="margin-top:6px">173 pages in sitemap · 41+ verified indexed</div><p class="note">'+idxNote+'</p></div>';
 
-  const g = ga[ga.length-1] || {};
   const sources = ["Google","Direct","ChatGPT","Facebook","Perplexity","Gemini","Claude","Copilot"];
-  const max = Math.max(1, ...sources.map(s=>parseFloat(g[s])||0));
-  let gh = '<div class="src">'+(g["Month"]||"")+' · Total sessions: <b>'+num(g["Total sessions"])+'</b></div>';
-  sources.forEach(s=>{
-    const v = parseFloat(g[s])||0;
-    gh += '<div class="bar-row"><span class="lab">'+s+'</span><div class="bar" style="width:'+Math.round(v/max*55)+'%"></div><span class="num">'+v+'</span></div>';
-  });
-  gh += '<p class="note">'+(g["Notes"]||"")+'</p>';
-  document.getElementById("gaCard").innerHTML = gh;
+  const max = Math.max(1, ...sources.map(s=>parseFloat(gaL[s])||0));
+  document.getElementById("view-analytics").innerHTML =
+    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Google Analytics — website visits</h3><div class="src">'+month+' · Total sessions: <b>'+num(gaL["Total sessions"])+'</b> · Updated by Main Muse</div>'
+    + sources.map(s=>{ const v = parseFloat(gaL[s])||0; return '<div class="bar-row"><span class="lab">'+s+'</span><div class="bar" style="width:'+Math.round(v/max*55)+'%"></div><span class="num">'+v+'</span></div>'; }).join("")
+    + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>';
 
-  const rb = document.querySelector("#rankTable tbody");
-  rank.forEach(r=>{
-    rb.innerHTML += "<tr><td><b>"+r["Item"]+"</b></td><td>"+r["Detail"]+'</td><td><span class="chip '+chipClass(r["Status"])+'">'+r["Status"]+"</span></td></tr>";
-  });
+  document.getElementById("view-rankings").innerHTML =
+    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Rankings, competitors &amp; goals</h3><div class="src">252-service audit, 1–2 Nov 2026 · Updated by Main Muse</div>'
+    + '<div class="tblwrap" style="margin-top:2px"><table><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody>'
+    + rank.map(r=>'<tr><td><b>'+r["Item"]+'</b></td><td>'+r["Detail"]+'</td><td><span class="chip '+chipClass(r["Status"])+'">'+r["Status"]+'</span></td></tr>').join("")
+    + '</tbody></table></div></div>';
 
   document.getElementById("status").style.display = "none";
-  document.getElementById("content").style.display = "block";
+  document.getElementById("app").style.display = "block";
+  go((location.hash||"#home").slice(1) || "home");
 }).catch(err=>{
   document.getElementById("status").innerHTML = "Could not read the Google Sheet ("+err.message+"). The Sheet’s sharing must be set to “Anyone with the link can view” for this page to load its data.";
   document.getElementById("liveTag").textContent = "Data not loading";
