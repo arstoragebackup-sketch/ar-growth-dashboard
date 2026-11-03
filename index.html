@@ -58,6 +58,7 @@
   .stat b{display:block;font-family:"Manrope",sans-serif;font-size:21px;color:var(--navy);font-weight:800}
   .stat span{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
   .note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.6}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}.tbl th,.tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}.tbl th:first-child,.tbl td:first-child{text-align:left}.tbl th{color:var(--mut);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px}.tbl tbody tr:last-child td{border-bottom:0}
   .note b{color:var(--navy)}
   table{width:100%;border-collapse:collapse;font-size:13px}
   .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:13px;background:#fff}
@@ -296,28 +297,24 @@ const COMPETITORS = [
 function opSection(month){
   const rows = D.op || [];
   if(!rows.length) return "";
-  const cur = lastFor(rows, month);
   let h = '<div class="card" style="margin-bottom:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">Counted from the clinic\u2019s Daily Patient Register \u00B7 counts only, no patient details \u00B7 the register begins October 2026</div>';
-  if(cur && cur["Total OP"] !== "" && cur["Total OP"] !== undefined){
-    h += statHTML([["Total OP \u2014 " + month, cur["Total OP"]], ["New cases", cur["New cases"]], ["Follow-ups (Review visits)", cur["Follow-ups"]]]);
-    if(cur["Notes"]) h += '<p class="note">' + cur["Notes"] + '</p>';
-  } else {
-    h += '<p class="note" style="margin-top:0">No register row for ' + month + ' \u2014 the register holds October 2026 onward.</p>';
-  }
-  const maxT = Math.max(1, ...rows.map(r => n0(r["Total OP"])));
-  h += '<h3 style="font-size:14.5px;margin-top:16px">Total OP by month</h3>'
-     + rows.map(r => barRow(r["Month"], n0(r["Total OP"]), maxT, fmt(n0(r["Total OP"])) + " OP \u00B7 " + fmt(n0(r["New cases"])) + " new \u00B7 " + fmt(n0(r["Follow-ups"])) + " follow-ups")).join("")
-     + '</div>';
+  h += '<table class="tbl"><thead><tr><th>Month</th><th>Total OP</th><th>New cases</th><th>Follow-ups</th></tr></thead><tbody>'
+     + rows.map(r => '<tr><td>' + r["Month"] + '</td><td>' + fmt(n0(r["Total OP"])) + '</td><td>' + fmt(n0(r["New cases"])) + '</td><td>' + fmt(n0(r["Follow-ups"])) + '</td></tr>').join("")
+     + '</tbody></table>';
+  rows.forEach(r => { if(r["Notes"]) h += '<p class="note">' + r["Month"] + ': ' + r["Notes"] + '</p>'; });
+  h += '</div>';
   return h;
 }
 function opStripCard(){
   const rows = D.op || [];
   if(!rows.length) return "";
-  const pairs = rows.slice(-2).map(r => ["Total OP \u2014 " + r["Month"], r["Total OP"]]);
-  const last = rows[rows.length - 1];
-  pairs.push(["New cases \u2014 " + last["Month"], last["New cases"]]);
-  pairs.push(["Follow-ups \u2014 " + last["Month"], last["Follow-ups"]]);
-  return '<div class="card" style="margin-top:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">From the Daily Patient Register \u00B7 full month-by-month detail under Patient Leads</div>' + statHTML(pairs) + '</div>';
+  const pairs = [];
+  rows.slice(-3).forEach(r => {
+    pairs.push(["Total OP \u2014 " + r["Month"], r["Total OP"]]);
+    pairs.push(["New \u2014 " + r["Month"], r["New cases"]]);
+    pairs.push(["Follow-ups \u2014 " + r["Month"], r["Follow-ups"]]);
+  });
+  return '<div class="card" style="margin-top:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">New cases and follow-ups for every month on record \u00B7 full table under Patient Leads</div>' + statHTML(pairs) + '</div>';
 }
 function render(){
   const month = MONTH;
