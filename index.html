@@ -58,6 +58,8 @@
   .stat b{display:block;font-family:"Manrope",sans-serif;font-size:21px;color:var(--navy);font-weight:800}
   .stat span{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
   .note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.6}
+.stamp{float:right;font-size:11px;color:var(--mut);background:#eef3f8;border:1px solid var(--line);padding:2px 8px;border-radius:99px;font-weight:600}
+.attItem{padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}.attItem:last-child{border-bottom:0}.attItem span{display:block;color:var(--mut);font-size:12.5px;margin-top:2px;line-height:1.55}
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}.tbl th,.tbl td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}.tbl th:first-child,.tbl td:first-child{text-align:left}.tbl th{color:var(--mut);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.4px}.tbl tbody tr:last-child td{border-bottom:0}
   .note b{color:var(--navy)}
   table{width:100%;border-collapse:collapse;font-size:13px}
@@ -297,7 +299,7 @@ const COMPETITORS = [
 function opSection(month){
   const rows = D.op || [];
   if(!rows.length) return "";
-  let h = '<div class="card" style="margin-bottom:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">Counted from the clinic\u2019s Daily Patient Register \u00B7 counts only, no patient details \u00B7 the register begins October 2026</div>';
+  let h = '<div class="card" style="margin-bottom:15px"><h3>Clinic OP \u2014 patient register' + stamp("Clinic OP") + '</h3><div class="src">Counted from the clinic\u2019s Daily Patient Register \u00B7 counts only, no patient details \u00B7 the register begins October 2026</div>';
   h += '<table class="tbl"><thead><tr><th>Month</th><th>Total OP</th><th>New cases</th><th>Follow-ups</th></tr></thead><tbody>'
      + rows.map(r => '<tr><td>' + r["Month"] + '</td><td>' + fmt(n0(r["Total OP"])) + '</td><td>' + fmt(n0(r["New cases"])) + '</td><td>' + fmt(n0(r["Follow-ups"])) + '</td></tr>').join("")
      + '</tbody></table>';
@@ -314,7 +316,33 @@ function opStripCard(){
     pairs.push(["New \u2014 " + r["Month"], r["New cases"]]);
     pairs.push(["Follow-ups \u2014 " + r["Month"], r["Follow-ups"]]);
   });
-  return '<div class="card" style="margin-top:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">New cases and follow-ups for every month on record \u00B7 full table under Patient Leads</div>' + statHTML(pairs) + '</div>';
+  return '<div class="card" style="margin-top:15px"><h3>Clinic OP \u2014 patient register' + stamp("Clinic OP") + '</h3><div class="src">New cases and follow-ups for every month on record \u00B7 full table under Patient Leads</div>' + statHTML(pairs) + '</div>';
+}
+
+function metaDate(key){ const r = (D.meta || []).find(x => x["Section"] === key); return r ? r["Updated on"] : ""; }
+function stamp(key){ const d = metaDate(key); return d ? ' <span class="stamp">Updated ' + d + '</span>' : ""; }
+function attentionCard(){
+  const rows = D.attention || [];
+  if(!rows.length) return "";
+  return '<div class="card" style="margin-top:15px"><h3>Needs attention</h3><div class="src">Open items that need a decision or a check \u00B7 kept current in the dashboard Sheet, Attention tab</div>'
+    + rows.map(r => '<div class="attItem"><b>' + (r["Item"] || "") + '</b><span>' + (r["Details"] || "") + (r["Since"] ? ' \u00B7 since ' + r["Since"] : '') + '</span></div>').join("")
+    + '</div>';
+}
+function targetsCard(){
+  const rows = D.targets || [];
+  if(!rows.length || !D.arGmb || !D.arGmb.length) return "";
+  const g = D.arGmb[D.arGmb.length - 1];
+  const opCur = lastFor(D.op || [], g["Month"]) || {};
+  const cur = {
+    "Google reviews (total)": n0(g["Total reviews"]),
+    "Profile views \u2014 monthly": n0(g["Views"]),
+    "Calls \u2014 monthly": n0(g["Calls"]),
+    "Total OP \u2014 monthly": n0(opCur["Total OP"]),
+    "New cases \u2014 monthly": n0(opCur["New cases"])
+  };
+  return '<div class="card" style="margin-top:15px"><h3>Targets \u2014 progress</h3><div class="src">Progress for ' + g["Month"] + ' (reviews: all-time total) \u00B7 starter targets set 4 Nov 2026 \u2014 edit them in the dashboard Sheet, Targets tab</div>'
+    + rows.map(r => { const t = Math.max(1, n0(r["Target"])); const c = cur[r["Metric"]] || 0; return barRow(r["Metric"], c, t, fmt(c) + " / " + fmt(t) + " \u00B7 " + Math.round(100 * c / t) + "%"); }).join("")
+    + '</div>';
 }
 function render(){
   const month = MONTH;
@@ -351,13 +379,15 @@ function render(){
   }
   document.getElementById("view-overview").innerHTML =
     '<div class="grid kpis">'+kpis.map(k=>'<div class="card kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="hint">'+k[2]+'</div></div>').join("")+'</div>'
+    + attentionCard()
     + opStripCard()
-    + '<div class="card" style="margin-top:15px"><h3>Google Business growth — profile views by month</h3><div class="src">AR Plastic Surgery · Google Business Profile · June 2026 onward — Google provides only the most recent months</div>'
+    + targetsCard()
+    + '<div class="card" style="margin-top:15px"><h3>Google Business growth — profile views by month' + stamp("AR Plastic Surgery GMB") + '</h3><div class="src">AR Plastic Surgery · Google Business Profile · June 2026 onward — Google provides only the most recent months</div>'
     + trendChart(D.arGmb, "Views", "#2563eb")
     + '<div class="chart-cap">Every point is the exact monthly figure from Google. Hover a point for its month and value.</div></div>'
     + '<div class="grid cols2" style="margin-top:15px">'
     + '<div class="card"><h3>Month comparison</h3><div class="src">Growth against the previous month</div>'+compareHTML+'</div>'
-    + '<div class="card"><h3>AI search visibility</h3><div class="src">Manual audit · 1–2 Nov 2026 · services where each AI names AR</div>'
+    + '<div class="card"><h3>AI search visibility' + stamp("AI Visibility") + '</h3><div class="src">Manual audit · 1–2 Nov 2026 · services where each AI names AR</div>'
     + barRow("ChatGPT", 217, 252, "217 / 252", "gold")
     + barRow("Gemini", 183, 252, "183 / 252")
     + barRow("Claude", 33, 36, "33 / 36 checked", "teal")
@@ -382,7 +412,7 @@ function render(){
     const last = lastFor(rows, month);
     const pairs = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Messages",last["Messages"]],["Total reviews",last["Total reviews"]]];
     if(last["Rating"]) pairs.push(["Rating",last["Rating"]+" ★"]);
-    return '<div class="card" style="margin-bottom:15px"><h3>'+title+'</h3><div class="src">'+(verified?"Maintained by the clinic’s digital team":"Reported by the profile team — not independently verified")+' · Last updated '+num(last["Updated on"])+'</div>'
+    return '<div class="card" style="margin-bottom:15px"><h3>'+title+'</h3><div class="src">'+(verified?"Maintained by the clinic’s digital team":"Reported by the profile team — not independently verified")+' · Updated '+(metaDate(title + " GMB") || num(last["Updated on"]))+'</div>'
       + statHTML(pairs)
       + '<h3 style="font-size:14.5px;margin-top:18px">Profile views — growth trend</h3>'
       + trendChart(rows, "Views", color)
@@ -406,7 +436,7 @@ function render(){
     let acc = 0; const total = Math.max(1, n0(gaL["Total sessions"]));
     const segs = sources.map((s,i)=>{ const v = n0(gaL[s]); const seg = '<circle r="52" cx="70" cy="70" fill="none" stroke="'+donutCols[i]+'" stroke-width="17" stroke-dasharray="'+(v/total*326.7).toFixed(1)+' 326.7" transform="rotate('+(acc/total*360-90).toFixed(1)+' 70 70)"/>'; acc += v; return v>0?seg:""; }).join("");
     websiteHTML += '<div class="grid cols2">'
-      + '<div class="card"><h3>Website traffic — where visits came from</h3><div class="src">Google Analytics · '+month+' · '+fmt(n0(gaL["Total sessions"]))+' sessions</div>'
+      + '<div class="card"><h3>Website traffic — where visits came from' + stamp("Website Analytics") + '</h3><div class="src">Google Analytics · '+month+' · '+fmt(n0(gaL["Total sessions"]))+' sessions</div>'
       + '<div class="donut-wrap"><svg width="140" height="140" viewBox="0 0 140 140"><circle r="52" cx="70" cy="70" fill="none" stroke="#e9eff5" stroke-width="17"/>'+segs+'<text x="70" y="66" text-anchor="middle" fill="#0D1B2A" font-size="21" font-weight="800">'+fmt(n0(gaL["Total sessions"]))+'</text><text x="70" y="84" text-anchor="middle" fill="#5d7182" font-size="9.5">SESSIONS</text></svg>'
       + '<div class="legend">'+sources.map((s,i)=>'<div><i style="background:'+donutCols[i]+'"></i>'+s+' — <b style="color:var(--navy)">'+n0(gaL[s])+'</b></div>').join("")+'</div></div>'
       + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>'
@@ -419,7 +449,7 @@ function render(){
   }
   if(gscHas){
     const maxClicks = Math.max(1, ...gscRows.map(r=>n0(r["Clicks"])));
-    websiteHTML += '<div class="card" style="margin-top:15px"><h3>Google Search Console — all three properties</h3><div class="src">'+month+' · clicks, impressions and average position</div>'
+    websiteHTML += '<div class="card" style="margin-top:15px"><h3>Google Search Console — all three properties' + stamp("Search Console") + '</h3><div class="src">'+month+' · clicks, impressions and average position</div>'
       + '<h3 style="font-size:14px;margin-top:6px">Clicks by property</h3>'
       + gscRows.map(r=>barRow((r["Property"]||"").replace("https://","").replace("http://",""), n0(r["Clicks"]), maxClicks, fmt(n0(r["Clicks"]))+" clicks", (r["Property"]||"").startsWith("http://")?"gold":"")).join("")
       + '<div class="tblwrap"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
@@ -449,7 +479,7 @@ function render(){
     ["Perplexity","Not yet audited",null,null,null,"No brand-mention audit has been run for Perplexity yet, and Analytics shows 0 referred visits. It is tracked here so the next audit fills it in — no figure is guessed."]
   ];
   document.getElementById("view-ai").innerHTML =
-    '<div class="card" style="margin-bottom:15px"><h3>AI search visibility<span class="badge-audit">MANUAL AUDIT · 1–2 NOV 2026</span></h3><div class="src">How AI assistants answer Karimnagar plastic-surgery searches — measured by audit, not a live feed</div>'
+    '<div class="card" style="margin-bottom:15px"><h3>AI search visibility<span class="badge-audit">MANUAL AUDIT · 1–2 NOV 2026</span>' + stamp("AI Visibility") + '</h3><div class="src">How AI assistants answer Karimnagar plastic-surgery searches — measured by audit, not a live feed</div>'
     + '<p class="note" style="margin-top:0">AI tools do not publish live analytics or search counts. These figures come from the manual services audit (252 services checked one by one) and from referral visits in Google Analytics. Anything not yet measured is labelled, never estimated.</p></div>'
     + '<div class="grid cols2">'
     + aiCards.map(c=>'<div class="card"><h3>'+c[0]+'</h3><div class="src">'+c[1]+'</div>'
@@ -462,7 +492,7 @@ function render(){
   /* ============ TELANGANA RANKINGS ============ */
   const kw = D.keywords || [];
   document.getElementById("view-telangana").innerHTML =
-    '<div class="card"><h3>Keyword rankings — measured positions</h3><div class="src">Google search snapshots · positions move between checks · unmeasured keywords are labelled, never guessed</div>'
+    '<div class="card"><h3>Keyword rankings — measured positions' + stamp("Keyword Rankings") + '</h3><div class="src">Google search snapshots · positions move between checks · unmeasured keywords are labelled, never guessed</div>'
     + '<div class="tblwrap"><table><thead><tr><th>Keyword</th><th>Location</th><th>AR position</th><th>Leader today</th><th>Date checked</th><th>Note</th></tr></thead><tbody>'
     + kw.map(r=>'<tr><td><b style="color:var(--navy)">'+r["Keyword"]+'</b></td><td>'+r["Location"]+'</td><td>'+posChip(r["AR position"])+'</td><td>'+(r["Leader today"]||"—")+'</td><td>'+(r["Date checked"]||"—")+'</td><td>'+(r["Note"]||"")+'</td></tr>').join("")
     + '</tbody></table></div>'
@@ -579,11 +609,11 @@ function printReport(){ window.print(); }
 /* ---------- load ---------- */
 Promise.allSettled([
   gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
-  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals"), gviz("Keyword Rankings"), gviz("Clinic OP")
+  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals"), gviz("Keyword Rankings"), gviz("Clinic OP"), gviz("Meta"), gviz("Targets"), gviz("Attention")
 ]).then(res=>{
   const ok = res.map(r=>r.status==="fulfilled" ? r.value : []);
   const failed = res.filter(r=>r.status==="rejected").length;
-  D = { arGmb: ok[0], drGmb: ok[1], dhGmb: ok[2], gsc: ok[3], ga: ok[4], rank: ok[5], keywords: ok[6], op: ok[7] };
+  D = { arGmb: ok[0], drGmb: ok[1], dhGmb: ok[2], gsc: ok[3], ga: ok[4], rank: ok[5], keywords: ok[6], op: ok[7], meta: ok[8], targets: ok[9], attention: ok[10] };
   const months = [...new Set(D.arGmb.map(r=>r["Month"]).filter(Boolean))];
   D.months = months.length? months : ["October 2026"];
   MONTH = D.months[D.months.length-1];
