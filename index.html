@@ -292,6 +292,33 @@ const COMPETITORS = [
   ["AR Plastic Surgery (you)","245 reviews · 4.9 ★ · 100% owner response","—","—","Competitor review counts are not tracked yet — collecting them needs a manual monthly check; no figures are shown rather than guessed."]
 ];
 
+
+function opSection(month){
+  const rows = D.op || [];
+  if(!rows.length) return "";
+  const cur = lastFor(rows, month);
+  let h = '<div class="card" style="margin-bottom:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">Counted from the clinic\u2019s Daily Patient Register \u00B7 counts only, no patient details \u00B7 the register begins October 2026</div>';
+  if(cur && cur["Total OP"] !== "" && cur["Total OP"] !== undefined){
+    h += statHTML([["Total OP \u2014 " + month, cur["Total OP"]], ["New cases", cur["New cases"]], ["Follow-ups (Review visits)", cur["Follow-ups"]]]);
+    if(cur["Notes"]) h += '<p class="note">' + cur["Notes"] + '</p>';
+  } else {
+    h += '<p class="note" style="margin-top:0">No register row for ' + month + ' \u2014 the register holds October 2026 onward.</p>';
+  }
+  const maxT = Math.max(1, ...rows.map(r => n0(r["Total OP"])));
+  h += '<h3 style="font-size:14.5px;margin-top:16px">Total OP by month</h3>'
+     + rows.map(r => barRow(r["Month"], n0(r["Total OP"]), maxT, fmt(n0(r["Total OP"])) + " OP \u00B7 " + fmt(n0(r["New cases"])) + " new \u00B7 " + fmt(n0(r["Follow-ups"])) + " follow-ups")).join("")
+     + '</div>';
+  return h;
+}
+function opStripCard(){
+  const rows = D.op || [];
+  if(!rows.length) return "";
+  const pairs = rows.slice(-2).map(r => ["Total OP \u2014 " + r["Month"], r["Total OP"]]);
+  const last = rows[rows.length - 1];
+  pairs.push(["New cases \u2014 " + last["Month"], last["New cases"]]);
+  pairs.push(["Follow-ups \u2014 " + last["Month"], last["Follow-ups"]]);
+  return '<div class="card" style="margin-top:15px"><h3>Clinic OP \u2014 patient register</h3><div class="src">From the Daily Patient Register \u00B7 full month-by-month detail under Patient Leads</div>' + statHTML(pairs) + '</div>';
+}
 function render(){
   const month = MONTH;
   const arL = lastFor(D.arGmb, month), drL = lastFor(D.drGmb, month), dhL = lastFor(D.dhGmb, month);
@@ -327,6 +354,7 @@ function render(){
   }
   document.getElementById("view-overview").innerHTML =
     '<div class="grid kpis">'+kpis.map(k=>'<div class="card kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="hint">'+k[2]+'</div></div>').join("")+'</div>'
+    + opStripCard()
     + '<div class="card" style="margin-top:15px"><h3>Google Business growth — profile views by month</h3><div class="src">AR Plastic Surgery · Google Business Profile · June 2026 onward — Google provides only the most recent months</div>'
     + trendChart(D.arGmb, "Views", "#2563eb")
     + '<div class="chart-cap">Every point is the exact monthly figure from Google. Hover a point for its month and value.</div></div>'
@@ -451,14 +479,15 @@ function render(){
   const leadRows = [["Phone calls", n0(arL["Calls"]), "Direct enquiries from the Google profile"],["Direction requests", n0(arL["Directions"]), "People who asked Google for directions to the clinic"],["Website clicks", n0(arL["Website clicks"]), "Profile visitors who went on to the website"],["Bookings", n0(arL["Bookings"]), "Google booking actions recorded in "+month]];
   const leadMax = Math.max(1, ...leadRows.map(r=>r[1]));
   document.getElementById("view-leads").innerHTML =
-    '<div class="grid kpis">'
+    opSection(month)
+    + '<div class="grid kpis">'
     + '<div class="card kpi"><div class="lab">Total profile actions</div><div class="val">'+fmt(actions)+'</div><div class="hint">Every call, direction request, website click and booking from the AR Google profile in '+month+'.</div></div>'
     + '<div class="card kpi"><div class="lab">Phone call enquiries</div><div class="val">'+fmt(n0(arL["Calls"]))+'</div><div class="hint">The strongest enquiry signal — patients who tapped “Call” on Google.</div></div>'
     + '<div class="card kpi"><div class="lab">Reviews as trust</div><div class="val">'+num(arL["Total reviews"])+(arL["Rating"]?'<em> · '+num(arL["Rating"])+'★</em>':"")+'</div><div class="hint">Google does not publish historical review counts — the rating shown is the one recorded for '+month+' in the sheet.</div></div>'
     + '</div>'
     + '<div class="card" style="margin-top:15px"><h3>Enquiry actions — '+month+'</h3><div class="src">Google Business Profile performance · AR Plastic Surgery</div>'
     + leadRows.map(r=>barRow(r[0], r[1], leadMax, fmt(r[1]))+'<p class="note" style="margin:-4px 0 8px 106px">'+r[2]+'</p>').join("")
-    + '<p class="note"><b>Honest limit:</b> these are Google-reported actions, not a clinic CRM. Individual patient leads, WhatsApp enquiries and consultation bookings are not connected to this dashboard yet — connecting them is listed under Settings → what still needs external access.</p></div>';
+    + '<p class="note"><b>Honest limit:</b> these are Google-reported actions, not a clinic CRM. Individual patient leads and WhatsApp enquiries are not connected yet — the register figures above are monthly counts only — connecting them is listed under Settings → what still needs external access.</p></div>';
 
   /* ============ SOCIAL MEDIA ============ */
   document.getElementById("view-social").innerHTML =
@@ -553,11 +582,11 @@ function printReport(){ window.print(); }
 /* ---------- load ---------- */
 Promise.allSettled([
   gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
-  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals"), gviz("Keyword Rankings")
+  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals"), gviz("Keyword Rankings"), gviz("Clinic OP")
 ]).then(res=>{
   const ok = res.map(r=>r.status==="fulfilled" ? r.value : []);
   const failed = res.filter(r=>r.status==="rejected").length;
-  D = { arGmb: ok[0], drGmb: ok[1], dhGmb: ok[2], gsc: ok[3], ga: ok[4], rank: ok[5], keywords: ok[6] };
+  D = { arGmb: ok[0], drGmb: ok[1], dhGmb: ok[2], gsc: ok[3], ga: ok[4], rank: ok[5], keywords: ok[6], op: ok[7] };
   const months = [...new Set(D.arGmb.map(r=>r["Month"]).filter(Boolean))];
   D.months = months.length? months : ["October 2026"];
   MONTH = D.months[D.months.length-1];
