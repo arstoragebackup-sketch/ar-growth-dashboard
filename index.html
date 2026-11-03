@@ -379,7 +379,6 @@ function render(){
   }
   document.getElementById("view-overview").innerHTML =
     '<div class="grid kpis">'+kpis.map(k=>'<div class="card kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="hint">'+k[2]+'</div></div>').join("")+'</div>'
-    + attentionCard()
     + opStripCard()
     + targetsCard()
     + '<div class="card" style="margin-top:15px"><h3>Google Business growth — profile views by month' + stamp("AR Plastic Surgery GMB") + '</h3><div class="src">AR Plastic Surgery · Google Business Profile · June 2026 onward — Google provides only the most recent months</div>'
