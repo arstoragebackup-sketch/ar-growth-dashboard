@@ -9,56 +9,55 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#071426;--deep:#0D1B2A;--deep2:#122539;--gold:#C6A76B;--gold2:#e3cda0;--white:#FFFFFF;--grey:#A7B1C0;--teal:#2bb3a3;--red:#e0655f;--amber:#e0a458;--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--line:rgba(255,255,255,.09);--txt:#eef2f7}
+  :root{--navy:#0D1B2A;--navy2:#14314e;--navy3:#1d4a73;--gold:#C6A76B;--gold2:#a5874e;--ink:#16283c;--mut:#5d7182;--line:#dde5ee;--bg:#f2f5f8;--card:#ffffff;--teal:#0e7c7b;--good:#177245;--warn:#b54708;--gap:#b42318}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--txt);background:
-    radial-gradient(1100px 550px at 90% -150px,rgba(198,167,107,.13),transparent 60%),
-    radial-gradient(900px 700px at -10% 110%,rgba(43,179,163,.07),transparent 55%),
-    linear-gradient(160deg,var(--navy),var(--deep) 55%,#0a1a2c);background-attachment:fixed;min-height:100vh}
+  body{font-family:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:
+    radial-gradient(1000px 500px at 90% -140px,rgba(13,27,42,.06),transparent 60%),
+    radial-gradient(800px 500px at -10% 110%,rgba(198,167,107,.07),transparent 55%),var(--bg);min-height:100vh}
   h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif}
   /* ---------- Splash ---------- */
-  #splash{position:fixed;inset:0;z-index:60;background:radial-gradient(1100px 700px at 50% 28%,#10283f,var(--navy) 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease,visibility .8s}
+  #splash{position:fixed;inset:0;z-index:60;background:radial-gradient(1100px 700px at 50% 28%,#14314e,var(--navy) 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease,visibility .8s}
   #splash.hide{opacity:0;visibility:hidden}
   #splash .ring{width:196px;height:196px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:ringPulse 2.4s ease-in-out infinite}
   #splash .ring:before{content:"";position:absolute;inset:-13px;border-radius:50%;border:1px solid rgba(198,167,107,.55);animation:spinSlow 14s linear infinite;border-top-color:transparent;border-bottom-color:transparent}
   @keyframes spinSlow{to{transform:rotate(360deg)}}
   @keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(198,167,107,.38)}50%{box-shadow:0 0 0 30px rgba(198,167,107,0)}}
-  #splash img{width:184px;height:184px;border-radius:50%;animation:logoIn 1.5s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 22px 60px rgba(0,0,0,.55)}
+  #splash img{width:184px;height:184px;border-radius:50%;animation:logoIn 1.5s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 22px 60px rgba(0,0,0,.5)}
   @keyframes logoIn{0%{transform:scale(.5);opacity:0;filter:blur(8px)}60%{opacity:1}100%{transform:scale(1);opacity:1;filter:blur(0)}}
   #splash h1{color:#fff;font-size:30px;letter-spacing:4px;margin-top:30px;animation:fadeUp 1s .5s ease both;text-align:center;font-weight:600}
-  #splash h2{color:var(--gold2);font-size:13px;letter-spacing:6px;font-weight:600;margin-top:9px;animation:fadeUp 1s .85s ease both;font-family:"Inter",sans-serif}
+  #splash h2{color:#e3cda0;font-size:13px;letter-spacing:6px;font-weight:600;margin-top:9px;animation:fadeUp 1s .85s ease both;font-family:"Inter",sans-serif}
   #splash .loadline{width:150px;height:2px;background:rgba(255,255,255,.16);border-radius:2px;margin-top:26px;overflow:hidden;animation:fadeUp 1s 1s ease both}
-  #splash .loadline i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--gold),var(--gold2));animation:loadSlide 1.2s ease-in-out infinite}
+  #splash .loadline i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--gold),#e3cda0);animation:loadSlide 1.2s ease-in-out infinite}
   @keyframes loadSlide{0%{transform:translateX(-110%)}100%{transform:translateX(400%)}}
   #splash p{color:rgba(255,255,255,.55);font-size:12px;margin-top:16px;letter-spacing:2px;animation:fadeUp 1s 1.2s ease both}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
   /* ---------- Shell ---------- */
   .shell{display:flex;min-height:100vh}
-  aside{width:248px;flex:0 0 248px;background:rgba(7,20,38,.72);backdrop-filter:blur(14px);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:30;transition:margin-left .3s ease}
+  aside{width:248px;flex:0 0 248px;background:linear-gradient(180deg,var(--navy),#0a1828);color:#dbe4ee;padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:30;transition:margin-left .3s ease;box-shadow:6px 0 24px rgba(13,27,42,.18)}
   aside.closed{margin-left:-248px}
-  .brand{display:flex;align-items:center;gap:11px;padding:2px 8px 18px;border-bottom:1px solid var(--line)}
-  .brand img{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(198,167,107,.6)}
+  .brand{display:flex;align-items:center;gap:11px;padding:2px 8px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .brand img{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(198,167,107,.65)}
   .brand b{display:block;font-family:"Fraunces",serif;font-size:15.5px;color:#fff;line-height:1.15}
-  .brand span{font-size:10px;letter-spacing:2.2px;color:var(--gold2);font-weight:700}
+  .brand span{font-size:10px;letter-spacing:2.2px;color:#e3cda0;font-weight:700}
   nav{margin-top:16px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
-  nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;color:var(--grey);font:500 13.5px "Inter",sans-serif;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left;transition:all .18s}
-  nav button .ic{width:24px;height:24px;border-radius:7px;background:var(--glass2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--gold2);flex:0 0 24px}
-  nav button:hover{color:#fff;background:var(--glass)}
-  nav button.on{color:#fff;background:linear-gradient(90deg,rgba(198,167,107,.20),rgba(198,167,107,.05));box-shadow:inset 2.5px 0 0 var(--gold)}
+  nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;color:#a7b1c0;font:500 13.5px "Inter",sans-serif;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left;transition:all .18s}
+  nav button .ic{width:24px;height:24px;border-radius:7px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#e3cda0;flex:0 0 24px}
+  nav button:hover{color:#fff;background:rgba(255,255,255,.06)}
+  nav button.on{color:#fff;background:linear-gradient(90deg,rgba(198,167,107,.22),rgba(198,167,107,.05));box-shadow:inset 2.5px 0 0 var(--gold)}
   nav button.on .ic{background:var(--gold);color:var(--navy)}
-  .sidefoot{margin-top:auto;padding:13px 10px 2px;border-top:1px solid var(--line);font-size:11.5px;color:var(--grey);line-height:1.5}
-  .sidefoot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:6px;box-shadow:0 0 8px var(--teal)}
+  .sidefoot{margin-top:auto;padding:13px 10px 2px;border-top:1px solid rgba(255,255,255,.1);font-size:11.5px;color:#a7b1c0;line-height:1.5}
+  .sidefoot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2bb3a3;margin-right:6px;box-shadow:0 0 8px #2bb3a3}
   main{flex:1;min-width:0;padding:22px 26px 40px;max-width:1240px;margin:0 auto;width:100%}
   .topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
-  .burger{display:none;background:var(--glass2);border:1px solid var(--line);color:#fff;border-radius:10px;width:40px;height:40px;font-size:17px;cursor:pointer}
-  .topbar h1{font-size:25px;font-weight:600;color:#fff}
-  .topbar .sub{width:100%;color:var(--grey);font-size:13px;margin-top:-6px}
+  .burger{display:none;background:#fff;border:1px solid var(--line);color:var(--navy);border-radius:10px;width:40px;height:40px;font-size:17px;cursor:pointer;box-shadow:0 3px 10px rgba(13,27,42,.08)}
+  .topbar h1{font-size:25px;font-weight:600;color:var(--navy)}
+  .topbar .sub{width:100%;color:var(--mut);font-size:13px;margin-top:-6px}
   .tools{margin-left:auto;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-  select{background:var(--deep2);color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 11px;font:600 13px "Inter",sans-serif;cursor:pointer}
-  .sync{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:12px;color:var(--grey)}
-  .sync .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
-  .sync.err .dot{background:var(--red);box-shadow:0 0 8px var(--red)}
+  select{background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font:600 13px "Inter",sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(13,27,42,.06)}
+  .sync{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:12px;color:var(--mut);box-shadow:0 3px 10px rgba(13,27,42,.06)}
+  .sync .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(14,124,123,.7)}
+  .sync.err .dot{background:#d92d20;box-shadow:0 0 8px rgba(217,45,32,.6)}
   /* ---------- Views & cards ---------- */
   .view{display:none}
   .view.active{display:block;animation:viewIn .45s ease both}
@@ -67,56 +66,62 @@
   .kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
   .cols2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
   .cols3{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
-  .card{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:19px;backdrop-filter:blur(10px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
-  .card h3{font-size:16.5px;color:#fff;font-weight:600;margin-bottom:2px}
-  .card .src{font-size:11.5px;color:var(--grey);margin-bottom:12px}
-  .kpi .lab{font-size:11px;letter-spacing:1.4px;color:var(--grey);font-weight:700;text-transform:uppercase}
-  .kpi .val{font-size:31px;font-weight:800;color:#fff;margin:5px 0 2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 8px 24px rgba(13,27,42,.06)}
+  .card h3{font-size:16.5px;color:var(--navy);font-weight:600;margin-bottom:2px}
+  .card .src{font-size:11.5px;color:var(--mut);margin-bottom:12px}
+  .kpi .lab{font-size:11px;letter-spacing:1.4px;color:var(--mut);font-weight:700;text-transform:uppercase}
+  .kpi .val{font-size:31px;font-weight:800;color:var(--navy);margin:5px 0 2px}
   .kpi .val em{font-style:normal;color:var(--gold2)}
-  .kpi .hint{font-size:12px;color:var(--grey);line-height:1.45}
+  .kpi .hint{font-size:12px;color:var(--mut);line-height:1.45}
   .kpi{position:relative;overflow:hidden}
-  .kpi:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .kpi:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--gold))}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(102px,1fr));gap:9px}
-  .stat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:11px 6px;text-align:center}
-  .stat b{display:block;font-size:22px;color:#fff;font-weight:800}
-  .stat span{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
-  .note{font-size:12.5px;color:var(--grey);margin-top:12px;line-height:1.55}
-  .note b{color:#dbe4ee}
+  .stat{background:#f5f8fb;border:1px solid var(--line);border-radius:12px;padding:11px 6px;text-align:center}
+  .stat b{display:block;font-size:22px;color:var(--navy);font-weight:800}
+  .stat span{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  .note{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.55}
+  .note b{color:var(--navy)}
   table{width:100%;border-collapse:collapse;font-size:13px}
-  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;margin-top:13px;background:rgba(255,255,255,.025)}
-  th{background:rgba(198,167,107,.13);color:var(--gold2);text-align:left;padding:10px 12px;font-weight:700;white-space:nowrap;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase}
-  td{padding:9.5px 12px;border-top:1px solid var(--line);vertical-align:top;color:#dbe4ee}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;margin-top:13px;background:#fff}
+  th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;white-space:nowrap;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase}
+  td{padding:9.5px 12px;border-top:1px solid var(--line);vertical-align:top;color:#2c3e50}
+  tr:nth-child(even) td{background:#f8fafc}
   .chip{display:inline-block;font-size:11px;font-weight:700;border-radius:13px;padding:2.5px 9px;white-space:nowrap}
-  .c-good{background:rgba(43,179,163,.16);color:#5fd4c4}.c-warn{background:rgba(224,164,88,.16);color:#eec088}.c-gap{background:rgba(224,101,95,.16);color:#f0968f}.c-info{background:rgba(120,160,220,.16);color:#a9c6ee}.c-gold{background:rgba(198,167,107,.18);color:var(--gold2)}
+  .c-good{background:#e6f4ea;color:var(--good)}.c-warn{background:#fdf0e2;color:var(--warn)}.c-gap{background:#fdecea;color:var(--gap)}.c-info{background:#e8f0fe;color:#1a56db}.c-gold{background:#f5edd8;color:var(--gold2)}
   .bar-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
-  .bar-row .lab{width:96px;color:var(--grey);font-weight:500;flex:0 0 96px}
-  .bar-track{flex:1;background:rgba(255,255,255,.06);border-radius:7px;height:13px;overflow:hidden}
-  .bar{height:100%;background:linear-gradient(90deg,#a5874e,var(--gold));border-radius:7px;min-width:2px;transition:width 1.1s ease}
-  .bar.teal{background:linear-gradient(90deg,#1d7a6e,var(--teal))}
-  .bar-row .num{font-weight:700;color:#fff;min-width:52px;text-align:right}
-  .pos{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:8px;font-weight:800;font-size:13px;background:rgba(255,255,255,.07);color:#fff}
-  .pos.p1{background:rgba(198,167,107,.25);color:var(--gold2)}
-  .pos.p3{background:rgba(43,179,163,.2);color:#5fd4c4}
-  .pos.bad{background:rgba(224,101,95,.18);color:#f0968f}
+  .bar-row .lab{width:96px;color:var(--mut);font-weight:500;flex:0 0 96px}
+  .bar-track{flex:1;background:#e9eff5;border-radius:7px;height:13px;overflow:hidden}
+  .bar{height:100%;background:linear-gradient(90deg,var(--navy3),var(--navy));border-radius:7px;min-width:2px;transition:width 1.1s ease}
+  .bar.gold{background:linear-gradient(90deg,var(--gold2),var(--gold))}
+  .bar.teal{background:linear-gradient(90deg,#0a5e5d,var(--teal))}
+  .bar-row .num{font-weight:700;color:var(--navy);min-width:52px;text-align:right}
+  .pos{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:8px;font-weight:800;font-size:13px;background:#e9eff5;color:var(--navy)}
+  .pos.p1{background:var(--navy);color:#e3cda0}
+  .pos.p3{background:#e6f4ea;color:var(--good)}
+  .pos.bad{background:#fdecea;color:var(--gap)}
   .donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .legend{font-size:12.5px;color:var(--grey);line-height:1.9}
+  .legend{font-size:12.5px;color:var(--mut);line-height:1.9}
   .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:8px}
   .audit-item{display:flex;gap:12px;padding:11px 2px;border-top:1px solid var(--line)}
   .audit-item:first-of-type{border-top:none}
   .audit-item .st{flex:0 0 auto;margin-top:1px}
-  .audit-item b{color:#fff;font-size:13.5px}
-  .audit-item p{font-size:12.5px;color:var(--grey);line-height:1.5;margin-top:1px}
+  .audit-item b{color:var(--navy);font-size:13.5px}
+  .audit-item p{font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:1px}
   .action-card{border-left:3px solid var(--gold)}
   .action-card .pri{font-size:10.5px;letter-spacing:1.2px;color:var(--gold2);font-weight:800}
-  .btn{background:linear-gradient(135deg,var(--gold),#a5874e);color:var(--navy);border:none;border-radius:11px;padding:11px 18px;font:700 13.5px "Inter",sans-serif;cursor:pointer;box-shadow:0 10px 22px rgba(198,167,107,.25)}
-  .btn:hover{filter:brightness(1.07)}
-  .btn.ghost{background:var(--glass2);color:#fff;border:1px solid var(--line);box-shadow:none}
-  #status{font-size:14px;color:var(--grey);padding:22px 2px}
-  footer{margin-top:26px;font-size:12px;color:var(--grey);line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
-  footer a{color:var(--gold2)}
+  .btn{background:var(--navy);color:#fff;border:none;border-radius:11px;padding:11px 18px;font:700 13.5px "Inter",sans-serif;cursor:pointer;box-shadow:0 10px 22px rgba(13,27,42,.22)}
+  .btn:hover{background:var(--navy2)}
+  .btn.goldb{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 10px 22px rgba(198,167,107,.3)}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line);box-shadow:0 3px 10px rgba(13,27,42,.06)}
+  #status{font-size:14px;color:var(--mut);padding:22px 2px}
+  footer{margin-top:26px;font-size:12px;color:var(--mut);line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
+  footer a{color:var(--navy3);font-weight:600}
   .badge-audit{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--navy);background:var(--gold);border-radius:6px;padding:2.5px 8px;vertical-align:2px;margin-left:8px}
+  .chart-box{margin-top:8px}
+  .chart-box svg{width:100%;height:auto;display:block}
+  .chart-cap{font-size:11.5px;color:var(--mut);margin-top:6px}
   @media(max-width:900px){
-    aside{position:fixed;left:0;top:0;bottom:0;margin-left:-248px;box-shadow:30px 0 60px rgba(0,0,0,.4)}
+    aside{position:fixed;left:0;top:0;bottom:0;margin-left:-248px;box-shadow:30px 0 60px rgba(0,0,0,.35)}
     aside.open{margin-left:0}
     .burger{display:block}
     main{padding:16px 14px 34px}
@@ -187,7 +192,7 @@
       <section class="view" id="view-settings"></section>
 
       <footer>
-        <b style="color:#fff">AR Growth Intelligence Command Center</b> · Data source: the shared Google Sheet
+        <b style="color:var(--navy)">AR Growth Intelligence Command Center</b> · Data source: the shared Google Sheet
         <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a>, read live on every visit.
         AR Plastic Surgery sections are maintained by the clinic’s digital team; the Dr Ashok Reddy and Dhruva Diabetic Foot sections are reported by their respective profile teams and are not independently verified.
         AI-search figures come from periodic manual audits, not a live feed. Google’s own reports run 2–3 days behind real time.
@@ -231,7 +236,7 @@ function go(view){
   const el = document.getElementById("view-"+view); if(el) el.classList.add("active");
   document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on", b.dataset.view===view));
   const meta = NAV.find(n=>n[0]===view);
-  if(meta){ document.getElementById("pageTitle").textContent = meta[1]==="Executive Overview" ? "Executive Overview" : meta[1]; document.getElementById("pageSub").textContent = meta[3]; }
+  if(meta){ document.getElementById("pageTitle").textContent = meta[1]; document.getElementById("pageSub").textContent = meta[3]; }
   if(location.hash !== "#"+view) history.replaceState(null,"","#"+view);
   document.getElementById("sidebar").classList.remove("open");
   window.scrollTo({top:0,behavior:"smooth"});
@@ -259,9 +264,9 @@ function chipClass(s){ s=(s||"").toLowerCase();
   if(s.includes("progress")||s.includes("partial")||s.includes("watch")) return "c-warn";
   if(s.includes("baseline")) return "c-info"; return "c-good"; }
 function chip(txt){ return '<span class="chip '+chipClass(txt)+'">'+txt+'</span>'; }
-function barRow(lab, val, max, display, teal){
+function barRow(lab, val, max, display, variant){
   const pct = max>0 ? Math.max(1.5, Math.round(val/max*100)) : 0;
-  return '<div class="bar-row"><span class="lab">'+lab+'</span><div class="bar-track"><div class="bar'+(teal?" teal":"")+'" style="width:'+pct+'%"></div></div><span class="num">'+display+'</span></div>';
+  return '<div class="bar-row"><span class="lab">'+lab+'</span><div class="bar-track"><div class="bar '+(variant||"")+'" style="width:'+pct+'%"></div></div><span class="num">'+display+'</span></div>';
 }
 function statHTML(pairs){ return '<div class="stats">'+pairs.map(p=>'<div class="stat"><b>'+num(p[1])+'</b><span>'+p[0]+'</span></div>').join("")+'</div>'; }
 function posChip(p){
@@ -271,10 +276,41 @@ function posChip(p){
   if(n<=3) return '<span class="pos p3">#'+n+'</span>';
   return '<span class="pos">#'+n+'</span>';
 }
-let D = null;         // all sheet data
-let MONTH = "";       // selected month
+const shortMonth = m => (m||"").split(" ")[0].slice(0,3);
+/* ---------- SVG trend chart ---------- */
+function trendChart(rows, key, color, height){
+  const pts = rows.map(r=>({m:r["Month"], v:n0(r[key])})).filter(p=>p.m);
+  if(!pts.length) return '<p class="note">No data recorded yet.</p>';
+  const W = 720, H = height||190, PL = 46, PR = 14, PT = 16, PB = 26;
+  const max = Math.max(...pts.map(p=>p.v), 1) * 1.15;
+  const iw = W - PL - PR, ih = H - PT - PB;
+  const X = i => pts.length===1 ? PL + iw/2 : PL + (i/(pts.length-1))*iw;
+  const Y = v => PT + ih - (v/max)*ih;
+  let grid = "";
+  [0, .5, 1].forEach(f=>{ const y = PT + ih - f*ih; grid += '<line x1="'+PL+'" y1="'+y+'" x2="'+(W-PR)+'" y2="'+y+'" stroke="#e3eaf1" stroke-width="1"/><text x="'+(PL-7)+'" y="'+(y+3.5)+'" text-anchor="end" font-size="10" fill="#8496a8">'+fmt(max*f/1.15)+'</text>'; });
+  const line = pts.map((p,i)=>(i?"L":"M")+X(i).toFixed(1)+","+Y(p.v).toFixed(1)).join(" ");
+  const area = line + " L"+X(pts.length-1).toFixed(1)+","+(PT+ih)+" L"+X(0).toFixed(1)+","+(PT+ih)+" Z";
+  const dots = pts.map((p,i)=>'<circle cx="'+X(i)+'" cy="'+Y(p.v)+'" r="4" fill="#fff" stroke="'+color+'" stroke-width="2.5"><title>'+p.m+': '+fmt(p.v)+'</title></circle><text x="'+X(i)+'" y="'+(Y(p.v)-10)+'" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0D1B2A">'+fmt(p.v)+'</text>').join("");
+  const labs = pts.map((p,i)=>'<text x="'+X(i)+'" y="'+(H-7)+'" text-anchor="middle" font-size="10" fill="#8496a8">'+shortMonth(p.m)+'</text>').join("");
+  return '<div class="chart-box"><svg viewBox="0 0 '+W+' '+H+'" role="img">'+grid+'<path d="'+area+'" fill="'+color+'" opacity="0.10"/><path d="'+line+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'+dots+labs+'</svg></div>';
+}
+/* ---------- multi-series grouped bars (actions by month) ---------- */
+function monthBars(rows, keys, colors){
+  const max = Math.max(1, ...rows.flatMap(r=>keys.map(k=>n0(r[k]))));
+  return rows.map(r=>'<div style="margin:10px 0"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px">'+r["Month"]+'</div>'
+    + keys.map((k,i)=>barRow(k, n0(r[k]), max, fmt(n0(r[k])), colors[i])).join("") + '</div>').join("");
+}
+let D = null;
+let MONTH = "";
 function rowsFor(rows, month){ return rows.filter(r=>r["Month"]===month); }
 function lastFor(rows, month){ const r = rowsFor(rows, month); return r.length? r[r.length-1] : {}; }
+function prevMonthOf(month){ const i = D.months.indexOf(month); return i>0 ? D.months[i-1] : null; }
+function deltaChip(cur, prev){
+  if(prev===null||prev===undefined||prev===""||n0(prev)===0) return "";
+  const d = ((n0(cur)-n0(prev))/n0(prev))*100;
+  const up = d>=0;
+  return ' <span class="chip '+(up?"c-good":"c-gap")+'">'+(up?"▲ +":"▼ ")+d.toFixed(0)+'% vs prev. month</span>';
+}
 
 const AUDIT_ITEMS = [
   ["good","Sitemap — 173 pages submitted","Full sitemap live and accepted by Google and Bing (Bing shows “Success”, 165 URLs discovered on 31 Oct). Last checked 2 Nov 2026."],
@@ -283,7 +319,7 @@ const AUDIT_ITEMS = [
   ["good","Structured data — clinic, doctor and FAQ schema","Physician / MedicalClinic / FAQ schema live across the site, with review count (245) corrected on all 139 pages on 1 Nov 2026."],
   ["good","Video data — fixed and validated by Google","Thumbnail and upload-date issues on all 14 video entries fixed in the site template; Google confirmed validation on 30 Oct 2026."],
   ["good","Social sharing tags — complete","Open Graph tags on all pages including all 11 web stories (added 1 Nov 2026); page titles and descriptions all within limits."],
-  ["action","http → https split — consolidation in progress","Google still shows the old http address for some searches: in October the http property earned 29 clicks against 10 for https, splitting the site’s ranking strength. Redirect and canonical checks are queued in the daily SEO work."],
+  ["good","http → https — fixed 3 Nov 2026","HTTPS enforcement switched on at GitHub: every http page now 301-redirects to https (verified live). Google will move the split traffic (29 http clicks vs 10 https in October) to the https property over the coming weeks."],
   ["good","IndexNow — automatic on every new article","New pages are pushed to Bing and other IndexNow engines automatically from the daily publishing pipeline (live since 1 Nov 2026)."]
 ];
 const COMPETITORS = [
@@ -298,94 +334,123 @@ const COMPETITORS = [
 function render(){
   const month = MONTH;
   const arL = lastFor(D.arGmb, month), drL = lastFor(D.drGmb, month), dhL = lastFor(D.dhGmb, month);
-  const gaL = lastFor(D.ga, month);
-  const gscRows = rowsFor(D.gsc, month).filter(r=>r["Property"]!=="Indexing status");
-  const gscIdx = rowsFor(D.gsc, month).find(r=>r["Property"]==="Indexing status") || D.gsc.find(r=>r["Property"]==="Indexing status") || {};
+  const gaRows = rowsFor(D.ga, month), gaL = gaRows.length? gaRows[gaRows.length-1] : {};
+  const gaHas = gaRows.length>0;
+  const gscRowsAll = rowsFor(D.gsc, month);
+  const gscRows = gscRowsAll.filter(r=>r["Property"]!=="Indexing status");
+  const gscHas = gscRows.length>0;
+  const gscIdx = gscRowsAll.find(r=>r["Property"]==="Indexing status") || D.gsc.find(r=>r["Property"]==="Indexing status") || {};
   const clicks = gscRows.reduce((s,r)=>s+n0(r["Clicks"]),0), imps = gscRows.reduce((s,r)=>s+n0(r["Impressions"]),0);
   const actions = n0(arL["Calls"])+n0(arL["Directions"])+n0(arL["Website clicks"])+n0(arL["Bookings"]);
-  const cg = D.rank.find(r=>(r["Item"]||"").toLowerCase().includes("chatgpt"))||{};
   const rankRows = D.rank;
+  const prev = prevMonthOf(month);
+  const arP = prev? lastFor(D.arGmb, prev) : null;
 
   /* ============ OVERVIEW ============ */
   const kpis = [
-    ["Website visitors", fmt(n0(gaL["Total sessions"])), "Google Analytics sessions in "+month+" — Google "+num(gaL["Google"])+", direct "+num(gaL["Direct"])+", ChatGPT "+num(gaL["ChatGPT"])+"."],
-    ["Google Business views", fmt(n0(arL["Views"])), "People who saw the AR Plastic Surgery profile on Search and Maps."],
+    ["Website visitors", gaHas? fmt(n0(gaL["Total sessions"])) : "–", gaHas? "Google Analytics sessions in "+month+" — Google "+num(gaL["Google"])+", direct "+num(gaL["Direct"])+", ChatGPT "+num(gaL["ChatGPT"])+"." : "Website analytics are recorded from October 2026 — not recorded for "+month+"."],
+    ["Google Business views", fmt(n0(arL["Views"])), "People who saw the AR Plastic Surgery profile on Search and Maps."+(prev? "" : "")],
     ["Profile actions", fmt(actions), "Calls "+num(arL["Calls"])+" · Directions "+num(arL["Directions"])+" · Website clicks "+num(arL["Website clicks"])+" · Bookings "+num(arL["Bookings"])+"."],
-    ["Organic search clicks", fmt(clicks), "Across all three Search Console properties · "+fmt(imps)+" impressions."],
+    ["Organic search clicks", gscHas? fmt(clicks) : "–", gscHas? "Across all three Search Console properties · "+fmt(imps)+" impressions." : "Search Console data is recorded from October 2026 — not recorded for "+month+"."],
     ["Patient enquiries", fmt(n0(arL["Calls"])), "Phone calls from the Google profile — the clearest enquiry signal available."],
-    ["AI search visibility", "217<em> / 252</em>", "Services where ChatGPT names AR Plastic Surgery (audit, 1–2 Nov 2026)."]
+    ["AI search visibility", "217<em> / 252</em>", "Services where ChatGPT names AR Plastic Surgery (latest audit, 1–2 Nov 2026)."]
   ];
+  let compareHTML;
+  if(arP){
+    const rowsC = [["Profile views","Views"],["Calls","Calls"],["Directions","Directions"],["Website clicks","Website clicks"]];
+    compareHTML = '<div class="tblwrap" style="margin-top:2px"><table><thead><tr><th>Metric</th><th>'+prev+'</th><th>'+month+'</th><th>Change</th></tr></thead><tbody>'
+      + rowsC.map(c=>'<tr><td><b style="color:var(--navy)">'+c[0]+'</b></td><td>'+fmt(n0(arP[c[1]]))+'</td><td>'+fmt(n0(arL[c[1]]))+'</td><td>'+(deltaChip(arL[c[1]], arP[c[1]]) || "—")+'</td></tr>').join("")
+      + '</tbody></table></div><p class="note">Google Business figures compare month on month from the sheet’s history (June 2026 onward — the earliest history Google still provides). Website analytics and Search Console history begins October 2026.</p>';
+  } else {
+    compareHTML = '<p class="note" style="margin-top:2px"><b>'+month+' is the first recorded month.</b> Google Business history in the sheet starts here, so month-on-month comparison begins with the next month.</p>';
+  }
   document.getElementById("view-overview").innerHTML =
     '<div class="grid kpis">'+kpis.map(k=>'<div class="card kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="hint">'+k[2]+'</div></div>').join("")+'</div>'
+    + '<div class="card" style="margin-top:15px"><h3>Google Business growth — profile views by month</h3><div class="src">AR Plastic Surgery · Google Business Profile · June 2026 onward — Google provides only the most recent months</div>'
+    + trendChart(D.arGmb, "Views", "#0D1B2A")
+    + '<div class="chart-cap">Every point is the exact monthly figure from Google. Hover a point for its month and value.</div></div>'
     + '<div class="grid cols2" style="margin-top:15px">'
-    + '<div class="card"><h3>Month comparison</h3><div class="src">Growth against the previous month</div>'
-    + (D.months.length<2
-        ? '<p class="note" style="margin-top:2px"><b>'+month+' is the baseline month.</b> This is the first month recorded in the shared data sheet, so there is no earlier month to compare against yet. From next month onward, this panel shows growth or decline for every headline figure automatically, as soon as the new month’s rows are added to the sheet.</p>'
-        : '<p class="note">Comparison is calculated from the two most recent months in the sheet.</p>')
-    + '</div>'
+    + '<div class="card"><h3>Month comparison</h3><div class="src">Growth against the previous month</div>'+compareHTML+'</div>'
     + '<div class="card"><h3>AI search visibility</h3><div class="src">Manual audit · 1–2 Nov 2026 · services where each AI names AR</div>'
-    + barRow("ChatGPT", 217, 252, "217 / 252")
+    + barRow("ChatGPT", 217, 252, "217 / 252", "gold")
     + barRow("Gemini", 183, 252, "183 / 252")
-    + barRow("Claude", 33, 36, "33 / 36 checked", true)
-    + barRow("Perplexity", 0, 252, "Not yet audited", true)
-    + '<p class="note">AI tools publish no live analytics — these figures come from the periodic manual audit. Referral visits in '+month+': ChatGPT '+num(gaL["ChatGPT"])+', all other AI tools 0.</p></div>'
+    + barRow("Claude", 33, 36, "33 / 36 checked", "teal")
+    + '<p class="note">AI tools publish no live analytics — these figures come from the periodic manual audit. Perplexity has not been audited yet. Referral visits in October: ChatGPT 1, all other AI tools 0.</p></div>'
     + '</div>'
     + '<div class="grid cols2" style="margin-top:15px">'
-    + '<div class="card"><h3>Google Business — all profiles</h3><div class="src">'+month+' · tap Google Business in the menu for full reports</div>'
+    + '<div class="card"><h3>Enquiry actions by month</h3><div class="src">AR Plastic Surgery · calls, directions and website clicks</div>'
+    + monthBars(D.arGmb.slice(-6), ["Calls","Directions","Website clicks"], ["","teal","gold"])
+    + '</div>'
+    + '<div class="card"><h3>Google Business — all profiles</h3><div class="src">'+month+'</div>'
     + barRow("AR Plastic Surgery", n0(arL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(arL["Views"]))+" views")
-    + barRow("Dhruva Diabetic Foot", n0(dhL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(dhL["Views"]))+" views", true)
-    + barRow("Dr Ashok Reddy", n0(drL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(drL["Views"]))+" views", true)
-    + '<p class="note">AR reviews: <b>'+num(arL["Total reviews"])+' at '+num(arL["Rating"])+' ★</b> with 100% owner response. Dhruva: '+num(dhL["Total reviews"])+' reviews at '+num(dhL["Rating"])+' ★ (reported by the profile team).</p></div>'
-    + '<div class="card"><h3>Where the website stands</h3><div class="src">Search Console · '+month+'</div>'
-    + statHTML([["Clicks (all properties)", fmt(clicks)],["Impressions", fmt(imps)],["Pages in sitemap","173"],["Verified indexed","41+"]])
+    + barRow("Dhruva Diabetic Foot", n0(dhL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(dhL["Views"]))+" views", "teal")
+    + barRow("Dr Ashok Reddy", n0(drL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(drL["Views"]))+" views", "teal")
+    + '<p class="note">AR reviews: <b>'+num(arL["Total reviews"])+(arL["Rating"]?' at '+num(arL["Rating"])+' ★':"")+'</b>'+(month===D.months[D.months.length-1]?' with 100% owner response.':'.')+' Dhruva and Dr Ashok Reddy figures are reported by their profile teams.</p>'
+    + '<h3 style="margin-top:16px">Where the website stands</h3><div class="src">Search Console · '+(gscHas? month : "October 2026")+'</div>'
+    + statHTML([["Clicks (all properties)", gscHas? fmt(clicks):"39"],["Impressions", gscHas? fmt(imps):"2,234"],["Pages in sitemap","173"],["Verified indexed","41+"]])
     + '<p class="note">'+(gscIdx["Notes"]||"")+'</p></div>'
     + '</div>';
 
   /* ============ GOOGLE BUSINESS ============ */
-  function gbpCard(title, rows, verified){
+  function gbpCard(title, rows, verified, color){
     const last = lastFor(rows, month);
     const pairs = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Messages",last["Messages"]],["Total reviews",last["Total reviews"]]];
     if(last["Rating"]) pairs.push(["Rating",last["Rating"]+" ★"]);
     return '<div class="card" style="margin-bottom:15px"><h3>'+title+'</h3><div class="src">'+(verified?"Maintained by the clinic’s digital team":"Reported by the profile team — not independently verified")+' · Last updated '+num(last["Updated on"])+'</div>'
       + statHTML(pairs)
+      + '<h3 style="font-size:14.5px;margin-top:18px">Profile views — growth trend</h3>'
+      + trendChart(rows, "Views", color)
       + (last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':"")
       + '<div class="tblwrap"><table><thead><tr><th>Month</th><th>Views</th><th>Calls</th><th>Directions</th><th>Website clicks</th><th>Reviews</th><th>Rating</th></tr></thead><tbody>'
       + rows.map(r=>'<tr><td>'+r["Month"]+'</td><td>'+num(r["Views"])+'</td><td>'+num(r["Calls"])+'</td><td>'+num(r["Directions"])+'</td><td>'+num(r["Website clicks"])+'</td><td>'+num(r["Total reviews"])+'</td><td>'+num(r["Rating"])+'</td></tr>').join("")
       + '</tbody></table></div></div>';
   }
   document.getElementById("view-gbp").innerHTML =
-    gbpCard("AR Plastic Surgery — Google Business Profile", D.arGmb, true)
-    + gbpCard("Dr Ashok Reddy — Google Business Profile", D.drGmb, false)
-    + gbpCard("Dhruva Diabetic Foot — Google Business Profile", D.dhGmb, false);
+    '<div class="card" style="margin-bottom:15px"><h3>History from June 2026</h3><div class="src">Google Business Profile performance</div><p class="note" style="margin-top:0">Google only provides the most recent months of profile performance — June 2026 onward. January–May 2026 figures no longer exist in Google’s performance view, so they are shown as unavailable rather than estimated. Review totals are likewise not published for past months.</p></div>'
+    + gbpCard("AR Plastic Surgery — Google Business Profile", D.arGmb, true, "#0D1B2A")
+    + gbpCard("Dr Ashok Reddy — Google Business Profile", D.drGmb, false, "#0e7c7b")
+    + gbpCard("Dhruva Diabetic Foot — Google Business Profile", D.dhGmb, false, "#C6A76B");
 
   /* ============ WEBSITE ANALYTICS ============ */
   const sources = ["Google","Direct","ChatGPT","Facebook","Perplexity","Gemini","Claude","Copilot"];
-  const maxSrc = Math.max(1, ...sources.map(s=>n0(gaL[s])));
-  const donutCols = ["#C6A76B","#2bb3a3","#7ea6d8","#e0a458","#8d9db5","#5f7d9c","#b0876f","#66788c"];
-  let acc = 0; const total = Math.max(1, n0(gaL["Total sessions"]));
-  const segs = sources.map((s,i)=>{ const v = n0(gaL[s]); const seg = '<circle r="52" cx="70" cy="70" fill="none" stroke="'+donutCols[i]+'" stroke-width="17" stroke-dasharray="'+(v/total*326.7).toFixed(1)+' 326.7" transform="rotate('+(acc/total*360-90).toFixed(1)+' 70 70)"/>'; acc += v; return v>0?seg:""; }).join("");
-  document.getElementById("view-website").innerHTML =
-    '<div class="grid cols2">'
-    + '<div class="card"><h3>Website traffic — where visits came from</h3><div class="src">Google Analytics · '+month+' · '+fmt(n0(gaL["Total sessions"]))+' sessions</div>'
-    + '<div class="donut-wrap"><svg width="140" height="140" viewBox="0 0 140 140"><circle r="52" cx="70" cy="70" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="17"/>'+segs+'<text x="70" y="66" text-anchor="middle" fill="#fff" font-size="21" font-weight="800">'+fmt(n0(gaL["Total sessions"]))+'</text><text x="70" y="84" text-anchor="middle" fill="#A7B1C0" font-size="9.5">SESSIONS</text></svg>'
-    + '<div class="legend">'+sources.map((s,i)=>'<div><i style="background:'+donutCols[i]+'"></i>'+s+' — <b style="color:#fff">'+n0(gaL[s])+'</b></div>').join("")+'</div></div>'
-    + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>'
-    + '<div class="card"><h3>Traffic by source</h3><div class="src">Sessions per source · '+month+'</div>'
-    + sources.map(s=>barRow(s, n0(gaL[s]), maxSrc, fmt(n0(gaL[s])), s!=="Google")).join("")
-    + '<p class="note">AI-referral baseline: exactly <b>1 visit (ChatGPT)</b> in October. Perplexity, Gemini, Claude and Copilot referrals are all 0 so far — the number the AI-visibility work is meant to move.</p></div>'
-    + '</div>'
-    + '<div class="card" style="margin-top:15px"><h3>Google Search Console — all three properties</h3><div class="src">'+month+' · clicks, impressions and average position</div>'
-    + '<div class="tblwrap"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
-    + gscRows.map(r=>'<tr><td>'+r["Property"]+'</td><td><b style="color:#fff">'+num(r["Clicks"])+'</b></td><td>'+num(r["Impressions"])+'</td><td>'+num(r["CTR"])+'</td><td>'+num(r["Avg position"])+'</td><td>'+(r["Notes"]||"")+'</td></tr>').join("")
-    + '</tbody></table></div>'
-    + '<p class="note"><b>Combined: '+fmt(clicks)+' clicks from '+fmt(imps)+' impressions.</b> '+(gscIdx["Notes"]||"")+'</p></div>';
+  let websiteHTML = "";
+  if(gaHas){
+    const maxSrc = Math.max(1, ...sources.map(s=>n0(gaL[s])));
+    const donutCols = ["#0D1B2A","#C6A76B","#0e7c7b","#1d4a73","#8496a8","#b0876f","#5f7d9c","#66788c"];
+    let acc = 0; const total = Math.max(1, n0(gaL["Total sessions"]));
+    const segs = sources.map((s,i)=>{ const v = n0(gaL[s]); const seg = '<circle r="52" cx="70" cy="70" fill="none" stroke="'+donutCols[i]+'" stroke-width="17" stroke-dasharray="'+(v/total*326.7).toFixed(1)+' 326.7" transform="rotate('+(acc/total*360-90).toFixed(1)+' 70 70)"/>'; acc += v; return v>0?seg:""; }).join("");
+    websiteHTML += '<div class="grid cols2">'
+      + '<div class="card"><h3>Website traffic — where visits came from</h3><div class="src">Google Analytics · '+month+' · '+fmt(n0(gaL["Total sessions"]))+' sessions</div>'
+      + '<div class="donut-wrap"><svg width="140" height="140" viewBox="0 0 140 140"><circle r="52" cx="70" cy="70" fill="none" stroke="#e9eff5" stroke-width="17"/>'+segs+'<text x="70" y="66" text-anchor="middle" fill="#0D1B2A" font-size="21" font-weight="800">'+fmt(n0(gaL["Total sessions"]))+'</text><text x="70" y="84" text-anchor="middle" fill="#5d7182" font-size="9.5">SESSIONS</text></svg>'
+      + '<div class="legend">'+sources.map((s,i)=>'<div><i style="background:'+donutCols[i]+'"></i>'+s+' — <b style="color:var(--navy)">'+n0(gaL[s])+'</b></div>').join("")+'</div></div>'
+      + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>'
+      + '<div class="card"><h3>Traffic by source</h3><div class="src">Sessions per source · '+month+'</div>'
+      + sources.map(s=>barRow(s, n0(gaL[s]), maxSrc, fmt(n0(gaL[s])), s==="Google"?"gold":"teal")).join("")
+      + '<p class="note">AI-referral baseline: exactly <b>1 visit (ChatGPT)</b> in October. Perplexity, Gemini, Claude and Copilot referrals are all 0 so far — the number the AI-visibility work is meant to move.</p></div>'
+      + '</div>';
+  } else {
+    websiteHTML += '<div class="card"><h3>Website traffic</h3><div class="src">Google Analytics</div><p class="note" style="margin-top:0">Analytics history in the sheet begins <b>October 2026</b> — no Analytics row exists for '+month+' yet, so no figures are shown for this month rather than invented ones. Use the month selector to view October 2026.</p></div>';
+  }
+  if(gscHas){
+    const maxClicks = Math.max(1, ...gscRows.map(r=>n0(r["Clicks"])));
+    websiteHTML += '<div class="card" style="margin-top:15px"><h3>Google Search Console — all three properties</h3><div class="src">'+month+' · clicks, impressions and average position</div>'
+      + '<h3 style="font-size:14px;margin-top:6px">Clicks by property</h3>'
+      + gscRows.map(r=>barRow((r["Property"]||"").replace("https://","").replace("http://",""), n0(r["Clicks"]), maxClicks, fmt(n0(r["Clicks"]))+" clicks", (r["Property"]||"").startsWith("http://")?"gold":"")).join("")
+      + '<div class="tblwrap"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
+      + gscRows.map(r=>'<tr><td>'+r["Property"]+'</td><td><b style="color:var(--navy)">'+num(r["Clicks"])+'</b></td><td>'+num(r["Impressions"])+'</td><td>'+num(r["CTR"])+'</td><td>'+num(r["Avg position"])+'</td><td>'+(r["Notes"]||"")+'</td></tr>').join("")
+      + '</tbody></table></div>'
+      + '<p class="note"><b>Combined: '+fmt(clicks)+' clicks from '+fmt(imps)+' impressions.</b> '+(gscIdx["Notes"]||"")+'</p></div>';
+  } else {
+    websiteHTML += '<div class="card" style="margin-top:15px"><h3>Google Search Console</h3><div class="src">All three properties</div><p class="note" style="margin-top:0">Search Console history in the sheet begins <b>October 2026</b> — no row exists for '+month+' yet. The indexing position is unchanged: 173 pages in the sitemap, 41+ verified indexed.</p></div>';
+  }
+  document.getElementById("view-website").innerHTML = websiteHTML;
 
   /* ============ SEO INTELLIGENCE ============ */
   const stChip = s => s==="good" ? '<span class="chip c-good">Healthy</span>' : s==="warn" ? '<span class="chip c-warn">In progress</span>' : '<span class="chip c-gap">Action needed</span>';
   document.getElementById("view-seo").innerHTML =
-    '<div class="card"><h3>Technical SEO audit — surgery.arplasticsurgery.co.in</h3><div class="src">Verified by the clinic’s digital team · last full check 2 Nov 2026 · sitemap: 173 pages</div>'
+    '<div class="card"><h3>Technical SEO audit — surgery.arplasticsurgery.co.in</h3><div class="src">Verified by the clinic’s digital team · last full check 3 Nov 2026 · sitemap: 173 pages</div>'
     + AUDIT_ITEMS.map(a=>'<div class="audit-item"><div class="st">'+stChip(a[0])+'</div><div><b>'+a[1]+'</b><p>'+a[2]+'</p></div></div>').join("")
-    + '<p class="note">Indexing progress, the http→https consolidation and new-article publishing are worked on daily in the SEO programme. Nothing on this page is estimated — each item is a checked fact with its date.</p></div>'
+    + '<p class="note">Indexing progress and new-article publishing are worked on daily in the SEO programme. Nothing on this page is estimated — each item is a checked fact with its date.</p></div>'
     + '<div class="card" style="margin-top:15px"><h3>Service standings — 252 services audited</h3><div class="src">External audit merged 1–2 Nov 2026 · full detail in Telangana Rankings and Competitor Analysis</div>'
     + statHTML([["Rated Top","190"],["Middle","39"],["Down","23"],["Maps #1","96"],["Maps top 3","117"],["Outside top 10","81"]])
     + '</div>';
@@ -403,8 +468,8 @@ function render(){
     + '<div class="grid cols2">'
     + aiCards.map(c=>'<div class="card"><h3>'+c[0]+'</h3><div class="src">'+c[1]+'</div>'
       + (c[2]===null
-          ? '<div class="big" style="font-size:22px;color:var(--grey)">Not yet audited</div><p class="note">'+c[5]+'</p>'
-          : barRow("Names AR", c[2], c[3], c[2]+" / "+c[3]) + (c[4]?barRow("Named 1st", c[4], c[3], String(c[4]), true):"") + '<p class="note">'+c[5]+'</p>')
+          ? '<div style="font-size:22px;font-weight:800;color:var(--mut)">Not yet audited</div><p class="note">'+c[5]+'</p>'
+          : barRow("Names AR", c[2], c[3], c[2]+" / "+c[3], "gold") + (c[4]?barRow("Named 1st", c[4], c[3], String(c[4]), "teal"):"") + '<p class="note">'+c[5]+'</p>')
       + '</div>').join("")
     + '</div>';
 
@@ -413,22 +478,22 @@ function render(){
   document.getElementById("view-telangana").innerHTML =
     '<div class="card"><h3>Keyword rankings — measured positions</h3><div class="src">Google search snapshots · positions move between checks · unmeasured keywords are labelled, never guessed</div>'
     + '<div class="tblwrap"><table><thead><tr><th>Keyword</th><th>Location</th><th>AR position</th><th>Leader today</th><th>Date checked</th><th>Note</th></tr></thead><tbody>'
-    + kw.map(r=>'<tr><td><b style="color:#fff">'+r["Keyword"]+'</b></td><td>'+r["Location"]+'</td><td>'+posChip(r["AR position"])+'</td><td>'+(r["Leader today"]||"—")+'</td><td>'+(r["Date checked"]||"—")+'</td><td>'+(r["Note"]||"")+'</td></tr>').join("")
+    + kw.map(r=>'<tr><td><b style="color:var(--navy)">'+r["Keyword"]+'</b></td><td>'+r["Location"]+'</td><td>'+posChip(r["AR position"])+'</td><td>'+(r["Leader today"]||"—")+'</td><td>'+(r["Date checked"]||"—")+'</td><td>'+(r["Note"]||"")+'</td></tr>').join("")
     + '</tbody></table></div>'
     + '<p class="note">The next rankings sweep measures the queued keywords and refreshes every position. Improvements and declines will show here month by month.</p></div>'
     + '<div class="card" style="margin-top:15px"><h3>All-services standings</h3><div class="src">From the Rankings &amp; Goals record · audit 1–2 Nov 2026</div>'
     + '<div class="tblwrap"><table><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody>'
-    + rankRows.map(r=>'<tr><td><b style="color:#fff">'+r["Item"]+'</b></td><td>'+r["Detail"]+'</td><td>'+chip(r["Status"])+'</td></tr>').join("")
+    + rankRows.map(r=>'<tr><td><b style="color:var(--navy)">'+r["Item"]+'</b></td><td>'+r["Detail"]+'</td><td>'+chip(r["Status"])+'</td></tr>').join("")
     + '</tbody></table></div></div>';
 
   /* ============ PATIENT LEADS ============ */
-  const leadRows = [["Phone calls", n0(arL["Calls"]), "Direct enquiries from the Google profile"],["Direction requests", n0(arL["Directions"]), "People who asked Google for directions to the clinic"],["Website clicks", n0(arL["Website clicks"]), "Profile visitors who went on to the website"],["Bookings", n0(arL["Bookings"]), "Google booking actions (none recorded in "+month+")"]];
+  const leadRows = [["Phone calls", n0(arL["Calls"]), "Direct enquiries from the Google profile"],["Direction requests", n0(arL["Directions"]), "People who asked Google for directions to the clinic"],["Website clicks", n0(arL["Website clicks"]), "Profile visitors who went on to the website"],["Bookings", n0(arL["Bookings"]), "Google booking actions recorded in "+month]];
   const leadMax = Math.max(1, ...leadRows.map(r=>r[1]));
   document.getElementById("view-leads").innerHTML =
     '<div class="grid kpis">'
     + '<div class="card kpi"><div class="lab">Total profile actions</div><div class="val">'+fmt(actions)+'</div><div class="hint">Every call, direction request, website click and booking from the AR Google profile in '+month+'.</div></div>'
     + '<div class="card kpi"><div class="lab">Phone call enquiries</div><div class="val">'+fmt(n0(arL["Calls"]))+'</div><div class="hint">The strongest enquiry signal — patients who tapped “Call” on Google.</div></div>'
-    + '<div class="card kpi"><div class="lab">Reviews as trust</div><div class="val">'+num(arL["Total reviews"])+'<em> · '+num(arL["Rating"])+'★</em></div><div class="hint">100% of reviews answered by the owner — the full backlog was cleared on 31 Oct 2026.</div></div>'
+    + '<div class="card kpi"><div class="lab">Reviews as trust</div><div class="val">'+num(arL["Total reviews"])+(arL["Rating"]?'<em> · '+num(arL["Rating"])+'★</em>':"")+'</div><div class="hint">Google does not publish historical review counts — the rating shown is the one recorded for '+month+' in the sheet.</div></div>'
     + '</div>'
     + '<div class="card" style="margin-top:15px"><h3>Enquiry actions — '+month+'</h3><div class="src">Google Business Profile performance · AR Plastic Surgery</div>'
     + leadRows.map(r=>barRow(r[0], r[1], leadMax, fmt(r[1]))+'<p class="note" style="margin:-4px 0 8px 106px">'+r[2]+'</p>').join("")
@@ -441,8 +506,8 @@ function render(){
     + statHTML([["Poster series","20 / 20 published"],["Posts in website gallery","33"],["Google posts mirrored","47 / 47"],["Daily education series","Running"]])
     + '<p class="note">The 20-poster premium series completed on 31 Oct 2026, every Instagram post is mirrored to Google Business (47 of 47), and a daily educational post and hand-surgery post run on schedule. Since 1 Nov 2026 all creatives are logo + text only, per the owner’s rule.</p></div>'
     + '<div class="card"><h3>Instagram reach &amp; followers</h3><div class="src">Performance metrics</div>'
-    + '<div class="big" style="font-size:22px;color:var(--grey)">Not connected yet</div>'
-    + '<p class="note">Follower counts, reach and engagement live inside Instagram Insights, which this dashboard cannot read without an insights data connection. Rather than show invented numbers, this panel stays empty until that access is connected — see the final report for what is needed.</p></div>'
+    + '<div style="font-size:22px;font-weight:800;color:var(--mut)">Not connected yet</div>'
+    + '<p class="note">Follower counts, reach and engagement live inside Instagram Insights, which this dashboard cannot read without an insights data connection. Rather than show invented numbers, this panel stays empty until that access is connected — see Settings for what is needed.</p></div>'
     + '</div>'
     + '<div class="card" style="margin-top:15px"><h3>YouTube — @Aradvancedplasticsurgery</h3><div class="src">Channel activity</div>'
     + statHTML([["Shorts published","32"],["Shorts retitled for search","30"],["Long videos","0"]])
@@ -452,22 +517,20 @@ function render(){
   document.getElementById("view-competitors").innerHTML =
     '<div class="card"><h3>Competitor intelligence — Karimnagar</h3><div class="src">From the October–November audits · only verified standings are shown</div>'
     + '<div class="tblwrap"><table><thead><tr><th>Competitor</th><th>Where they stand</th><th>Threat</th><th>What it means / AR’s counter</th></tr></thead><tbody>'
-    + COMPETITORS.map(c=>'<tr><td><b style="color:#fff">'+c[0]+'</b><br><span style="color:var(--grey);font-size:12px">'+c[1]+'</span></td><td>'+c[2]+'</td><td>'+(c[3]==="High"?'<span class="chip c-gap">High</span>':c[3]==="Medium"?'<span class="chip c-warn">Medium</span>':"—")+'</td><td>'+c[4]+'</td></tr>').join("")
+    + COMPETITORS.map(c=>'<tr><td><b style="color:var(--navy)">'+c[0]+'</b><br><span style="color:var(--mut);font-size:12px">'+c[1]+'</span></td><td>'+c[2]+'</td><td>'+(c[3]==="High"?'<span class="chip c-gap">High</span>':c[3]==="Medium"?'<span class="chip c-warn">Medium</span>':"—")+'</td><td>'+c[4]+'</td></tr>').join("")
     + '</tbody></table></div>'
     + '<p class="note">Competitor Google review counts, their content calendars and their website traffic cannot be seen from outside — those fields are deliberately not invented. A manual monthly competitor check can add their review counts over time.</p></div>';
 
   /* ============ AI GROWTH ADVISOR ============ */
   const A = [];
-  const httpsRow = gscRows.find(r=>(r["Property"]||"").startsWith("https://surgery"))||{};
-  const httpRow = gscRows.find(r=>(r["Property"]||"").startsWith("http://surgery"))||{};
-  if(n0(httpRow["Clicks"]) > n0(httpsRow["Clicks"])) A.push([1,"Finish the http → https consolidation","The old http property earned "+num(httpRow["Clicks"])+" clicks in "+month+" against "+num(httpsRow["Clicks"])+" for https. Every search that lands on http splits the site’s ranking strength — completing the redirect/canonical fix is the single highest-value technical action."]);
+  A.push([1,"Confirm the https consolidation lands","HTTPS enforcement was switched on 3 Nov 2026 — every http page now redirects to https. In October the split was "+(gscHas? "29 http clicks vs 10 https" : "http ahead of https")+". Watch next month’s Search Console: the https property should take over nearly all clicks. If it does not, the remaining http references (old links and listings) get cleaned up next."]);
   A.push([2,"Win “hand surgeon” in Karimnagar","Dr GN Bandari holds #1 and AR sat 12th in the last pack check, even though a dedicated hand-surgery page is live and indexed. The gap is authority, not indexing: keep the daily hand-surgery Google posts flowing and build the hand-surgery article cluster (carpal tunnel, trigger finger, tendon repair — where AR already ranks #1)."]);
   A.push([3,"Close Gemini’s cleft & facial-trauma blind spot","Gemini named AR in 0 of 27 cleft and facial-fracture searches while ChatGPT names AR near the top for the same services. The maxillofacial and cleft content published in November is the start; answer-shaped pages plus matching Google posts are how Gemini’s Google-fed answers pick AR up."]);
   A.push([4,"Attack the skin & laser cluster","16 of 26 skin & laser services rate Down — AR’s weakest area, led by VCare, Anoos and Aviva. A focused run of skin & laser service content and Google posts is the biggest block of winnable positions in the audit (81 services currently sit outside the top 10)."]);
   A.push([5,"Clear the indexing backlog, then defend hair transplant","Only 41+ of 173 pages are verified indexed, and AR does not appear in the hair-transplant pack while the profile’s “Hair transplantation clinic” category sits empty. Daily indexing batches plus filling that category turn the flagship service back on in local search."]);
   document.getElementById("view-advisor").innerHTML =
     '<div class="card" style="margin-bottom:15px"><h3>AI Growth Advisor — '+month+'</h3><div class="src">Analysis generated from this dashboard’s actual data — every recommendation cites the figure behind it</div>'
-    + '<p class="note" style="margin-top:0">Signals detected this month: profile actions are healthy ('+fmt(actions)+' actions, '+num(arL["Total reviews"])+' reviews at '+num(arL["Rating"])+' ★), but three leaks cost growth — the http/https split, the hand-surgeon gap, and 130+ pages not yet indexed. AI visibility is strong in ChatGPT and uneven in Gemini. The five priorities below are ordered by expected impact.</p></div>'
+    + '<p class="note" style="margin-top:0">Signals detected: profile actions for '+month+' total '+fmt(actions)+' with '+fmt(n0(arL["Views"]))+' profile views; the http→https fix is now live; three leaks still cost growth — the hand-surgeon gap, 130+ pages not yet verified indexed, and the skin &amp; laser cluster. AI visibility is strong in ChatGPT and uneven in Gemini. The five priorities below are ordered by expected impact.</p></div>'
     + '<div class="grid" style="gap:13px">'
     + A.map((a,i)=>'<div class="card action-card"><div class="pri">PRIORITY '+(i+1)+'</div><h3 style="margin:4px 0 6px">'+a[1]+'</h3><p class="note" style="margin-top:0">'+a[2]+'</p></div>').join("")
     + '</div>';
@@ -475,34 +538,36 @@ function render(){
   /* ============ REPORTS ============ */
   document.getElementById("view-reports").innerHTML =
     '<div class="card"><h3>Monthly growth report — '+month+'</h3><div class="src">Generated from the live data sheet · print-ready</div>'
-    + '<p class="note" style="margin-top:0">The report contains the performance summary, month comparison status, SEO progress, Google visibility, website performance, lead generation, competitor insights and next month’s strategy (the Advisor’s five priorities).</p>'
-    + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" onclick="printReport()">Download PDF report</button>'
+    + '<p class="note" style="margin-top:0">The report contains the performance summary, the Google Business month-by-month table (June 2026 onward), SEO progress, Google visibility, website performance, lead generation, competitor insights and next month’s strategy (the Advisor’s five priorities).</p>'
+    + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn goldb" onclick="printReport()">Download PDF report</button>'
     + '<a class="btn ghost" style="text-decoration:none;display:inline-block" href="https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/edit" target="_blank" rel="noopener">Open the data sheet</a></div>'
-    + '<p class="note">Months available: '+D.months.join(", ")+'. New months appear here automatically when their rows are added to the sheet.</p></div>';
+    + '<p class="note">Google Business months available: '+D.months.join(", ")+'. New months appear here automatically when their rows are added to the sheet.</p></div>';
 
   /* ============ SETTINGS ============ */
   document.getElementById("view-settings").innerHTML =
     '<div class="grid cols2">'
     + '<div class="card"><h3>Data connection</h3><div class="src">Live integration — preserved from the original dashboard</div>'
-    + '<p class="note" style="margin-top:0">Source: Google Sheet “AR Growth Dashboard” (owned by the owner’s personal account). This page reads the sheet live on every visit — no copy of the figures is stored on the website. AR sections are updated by the clinic’s digital team; Dr Ashok Reddy and Dhruva sections by their profile teams.</p>'
+    + '<p class="note" style="margin-top:0">Source: Google Sheet “AR Growth Dashboard” (owned by the owner’s personal account). This page reads the sheet live on every visit — no copy of the figures is stored on the website. AR Plastic Surgery history runs from June 2026 — Google’s performance view no longer offers January–May 2026, so those months are shown as unavailable rather than filled in. AR sections are updated by the clinic’s digital team; Dr Ashok Reddy and Dhruva sections by their profile teams.</p>'
     + '<div style="margin-top:13px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="location.reload()">Reload data</button>'
     + '<a class="btn ghost" style="text-decoration:none;display:inline-block" href="https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/edit" target="_blank" rel="noopener">Open sheet</a></div></div>'
     + '<div class="card"><h3>What still needs external access</h3><div class="src">Not connected — listed honestly, never faked</div>'
-    + '<p class="note" style="margin-top:0">· Instagram Insights (followers, reach, engagement)<br>· Patient lead / CRM data (WhatsApp enquiries, consultation bookings)<br>· Live keyword rank tracking (positions here are dated manual snapshots)<br>· Competitor review counts (manual monthly check)<br>· Perplexity and full-Claude AI audits (next audit round)</p></div>'
+    + '<p class="note" style="margin-top:0">· Instagram Insights (followers, reach, engagement)<br>· Patient lead / CRM data (WhatsApp enquiries, consultation bookings)<br>· Website Analytics &amp; Search Console history before October 2026<br>· Live keyword rank tracking (positions here are dated manual snapshots)<br>· Competitor review counts (manual monthly check)<br>· Perplexity and full-Claude AI audits (next audit round)</p></div>'
     + '</div>';
 
-  buildPrintReport(month, {arL, gaL, clicks, imps, actions});
+  buildPrintReport(month, {arL, gaL, clicks, imps, actions, gaHas});
 }
 
 function buildPrintReport(month, x){
-  const r = D.rank || [];
   const adv = [
-    "Finish the http → https consolidation (http earned more clicks than https in "+month+").",
+    "Confirm the http → https consolidation lands (fix switched on 3 Nov 2026; October split was 29 http clicks vs 10 https).",
     "Win “hand surgeon” in Karimnagar — authority work against Dr GN Bandari’s #1.",
     "Close Gemini’s cleft & facial-trauma blind spot (0 of 27 searches).",
     "Attack the skin & laser cluster — 16 of 26 services rated Down.",
     "Clear the indexing backlog (41+ of 173 verified) and fill the empty hair-transplant category."
   ];
+  const gmbTable = '<div class="tblwrap" style="border-color:#d8dfe6"><table><thead><tr><th>Month</th><th>Views</th><th>Calls</th><th>Directions</th><th>Website clicks</th></tr></thead><tbody>'
+    + D.arGmb.map(r=>'<tr><td>'+r["Month"]+'</td><td>'+num(r["Views"])+'</td><td>'+num(r["Calls"])+'</td><td>'+num(r["Directions"])+'</td><td>'+num(r["Website clicks"])+'</td></tr>').join("")
+    + '</tbody></table></div>';
   document.getElementById("printReport").innerHTML =
     '<h1>AR Plastic Surgery — Monthly Growth Report</h1>'
     + '<p><b>'+month+'</b> · Generated from the AR Growth Intelligence Command Center · Data: shared Google Sheet “AR Growth Dashboard”</p>'
@@ -510,14 +575,14 @@ function buildPrintReport(month, x){
     + '<div class="kbox"><b>'+fmt(n0(x.arL["Views"]))+'</b><span>Profile views</span></div>'
     + '<div class="kbox"><b>'+fmt(x.actions)+'</b><span>Profile actions</span></div>'
     + '<div class="kbox"><b>'+fmt(n0(x.arL["Calls"]))+'</b><span>Phone enquiries</span></div>'
-    + '<div class="kbox"><b>'+fmt(x.clicks)+'</b><span>Search clicks</span></div>'
-    + '<div class="kbox"><b>'+fmt(n0(x.gaL["Total sessions"]))+'</b><span>Website sessions</span></div>'
-    + '<div class="kbox"><b>'+num(x.arL["Total reviews"])+' · '+num(x.arL["Rating"])+'★</b><span>Google reviews</span></div></div>'
-    + '<p>Month comparison: '+month+' is the baseline month in the data sheet — comparisons begin automatically from the next recorded month.</p>'
-    + '<h2>SEO progress</h2><p>Sitemap: 173 pages. Verified indexed: 41+ (Search Console display of 31 is stale since 23 Oct). IndexNow pushes new articles automatically. Open item: http property earned more clicks than https ('+month+'), so consolidation is the top technical priority.</p>'
+    + '<div class="kbox"><b>'+(x.gaHas? fmt(x.clicks) : "—")+'</b><span>Search clicks</span></div>'
+    + '<div class="kbox"><b>'+(x.gaHas? fmt(n0(x.gaL["Total sessions"])) : "—")+'</b><span>Website sessions</span></div>'
+    + '<div class="kbox"><b>'+num(x.arL["Total reviews"])+(x.arL["Rating"]?' · '+num(x.arL["Rating"])+'★':"")+'</b><span>Google reviews</span></div></div>'
+    + '<h2>Google Business — month by month</h2>'+gmbTable
+    + '<h2>SEO progress</h2><p>Sitemap: 173 pages. Verified indexed: 41+ (Search Console display of 31 is stale since 23 Oct). IndexNow pushes new articles automatically. The http → https split was fixed on 3 Nov 2026 (HTTPS enforcement on; all http pages 301-redirect to https).</p>'
     + '<h2>Google visibility</h2><p>Services audit (252 services, 1–2 Nov 2026): Top 190 · Middle 39 · Down 23. Google Maps: #1 for 96 services, top 3 for 117, outside the top 10 for 81. ChatGPT names AR in 217 services (1st in 157); Gemini in 183 (1st in 176) with a cleft/facial-fracture blind spot; Claude named AR in 33 of 36 checked.</p>'
-    + '<h2>Website performance</h2><p>'+fmt(x.clicks)+' clicks from '+fmt(x.imps)+' impressions across the three Search Console properties; '+fmt(n0(x.gaL["Total sessions"]))+' Analytics sessions (Google '+num(x.gaL["Google"])+', direct '+num(x.gaL["Direct"])+', ChatGPT '+num(x.gaL["ChatGPT"])+').</p>'
-    + '<h2>Lead generation</h2><p>'+fmt(n0(x.arL["Calls"]))+' phone calls, '+fmt(n0(x.arL["Directions"]))+' direction requests and '+fmt(n0(x.arL["Website clicks"]))+' website clicks from the Google profile. These are Google-reported actions; clinic CRM leads are not yet connected.</p>'
+    + '<h2>Website performance</h2><p>'+(x.gaHas? fmt(x.clicks)+' clicks from '+fmt(x.imps)+' impressions across the three Search Console properties; '+fmt(n0(x.gaL["Total sessions"]))+' Analytics sessions (Google '+num(x.gaL["Google"])+', direct '+num(x.gaL["Direct"])+', ChatGPT '+num(x.gaL["ChatGPT"])+').' : 'Website analytics and Search Console figures are recorded from October 2026.')+'</p>'
+    + '<h2>Lead generation</h2><p>'+fmt(n0(x.arL["Calls"]))+' phone calls, '+fmt(n0(x.arL["Directions"]))+' direction requests and '+fmt(n0(x.arL["Website clicks"]))+' website clicks from the Google profile in '+month+'. These are Google-reported actions; clinic CRM leads are not yet connected.</p>'
     + '<h2>Competitor insights</h2><p>Dr GN Bandari leads “hand surgeon” (AR 12th, 28 Oct pack check). Medicover leads most cost searches. Drushya holds the hair-transplant listing box. VCare, Anoos and Aviva lead the skin &amp; laser cluster — AR’s weakest area.</p>'
     + '<h2>Next month’s strategy</h2><p>'+adv.map((a,i)=>(i+1)+'. '+a).join('<br>')+'</p>'
     + '<p style="margin-top:16px;color:#5d7182">AR Plastic Surgery · Opp. Reddy Gari Vantillu, Court Chowrasta, Karimnagar · Precision and Perfection</p>';
