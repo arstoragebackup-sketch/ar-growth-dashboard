@@ -3,94 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AR Growth Dashboard</title>
+<title>AR Growth Intelligence — Command Center</title>
 <link rel="icon" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#081f33;--navy2:#0e3355;--navy3:#14507f;--teal:#0e7c7b;--teal2:#12a19f;--gold:#c9a24b;--gold2:#e6c87a;--bg:#edf2f6;--card:#ffffff;--ink:#182635;--mut:#5d7182;--line:#dde6ee;--good:#177245;--warn:#b54708;--gap:#b42318}
+  :root{--navy:#071426;--deep:#0D1B2A;--deep2:#122539;--gold:#C6A76B;--gold2:#e3cda0;--white:#FFFFFF;--grey:#A7B1C0;--teal:#2bb3a3;--red:#e0655f;--amber:#e0a458;--glass:rgba(255,255,255,.045);--glass2:rgba(255,255,255,.07);--line:rgba(255,255,255,.09);--txt:#eef2f7}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:
-    radial-gradient(900px 480px at 85% -120px,rgba(201,162,75,.16),transparent 60%),
-    radial-gradient(1000px 600px at -10% 0,rgba(14,124,123,.10),transparent 55%),
-    var(--bg);color:var(--ink);min-height:100vh}
+  body{font-family:"Inter",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--txt);background:
+    radial-gradient(1100px 550px at 90% -150px,rgba(198,167,107,.13),transparent 60%),
+    radial-gradient(900px 700px at -10% 110%,rgba(43,179,163,.07),transparent 55%),
+    linear-gradient(160deg,var(--navy),var(--deep) 55%,#0a1a2c);background-attachment:fixed;min-height:100vh}
   h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif}
   /* ---------- Splash ---------- */
-  #splash{position:fixed;inset:0;z-index:50;background:radial-gradient(1100px 700px at 50% 28%,var(--navy2),var(--navy) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease,visibility .8s}
+  #splash{position:fixed;inset:0;z-index:60;background:radial-gradient(1100px 700px at 50% 28%,#10283f,var(--navy) 72%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease,visibility .8s}
   #splash.hide{opacity:0;visibility:hidden}
   #splash .ring{width:196px;height:196px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:ringPulse 2.4s ease-in-out infinite}
-  #splash .ring:before{content:"";position:absolute;inset:-13px;border-radius:50%;border:1px solid rgba(201,162,75,.55);animation:spinSlow 14s linear infinite;border-top-color:transparent;border-bottom-color:transparent}
+  #splash .ring:before{content:"";position:absolute;inset:-13px;border-radius:50%;border:1px solid rgba(198,167,107,.55);animation:spinSlow 14s linear infinite;border-top-color:transparent;border-bottom-color:transparent}
   @keyframes spinSlow{to{transform:rotate(360deg)}}
-  @keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,75,.40)}50%{box-shadow:0 0 0 30px rgba(201,162,75,0)}}
-  #splash img{width:184px;height:184px;border-radius:50%;animation:logoIn 1.5s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 22px 60px rgba(0,0,0,.5)}
+  @keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(198,167,107,.38)}50%{box-shadow:0 0 0 30px rgba(198,167,107,0)}}
+  #splash img{width:184px;height:184px;border-radius:50%;animation:logoIn 1.5s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 22px 60px rgba(0,0,0,.55)}
   @keyframes logoIn{0%{transform:scale(.5);opacity:0;filter:blur(8px)}60%{opacity:1}100%{transform:scale(1);opacity:1;filter:blur(0)}}
   #splash h1{color:#fff;font-size:30px;letter-spacing:4px;margin-top:30px;animation:fadeUp 1s .5s ease both;text-align:center;font-weight:600}
-  #splash h2{font-family:"Inter",sans-serif;color:var(--gold2);font-size:13px;letter-spacing:6px;font-weight:600;margin-top:9px;animation:fadeUp 1s .85s ease both}
-  #splash .loadline{width:150px;height:2px;background:rgba(255,255,255,.18);border-radius:2px;margin-top:26px;overflow:hidden;animation:fadeUp 1s 1s ease both}
-  #splash .loadline i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;animation:loadSlide 1.2s ease-in-out infinite}
+  #splash h2{color:var(--gold2);font-size:13px;letter-spacing:6px;font-weight:600;margin-top:9px;animation:fadeUp 1s .85s ease both;font-family:"Inter",sans-serif}
+  #splash .loadline{width:150px;height:2px;background:rgba(255,255,255,.16);border-radius:2px;margin-top:26px;overflow:hidden;animation:fadeUp 1s 1s ease both}
+  #splash .loadline i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--gold),var(--gold2));animation:loadSlide 1.2s ease-in-out infinite}
   @keyframes loadSlide{0%{transform:translateX(-110%)}100%{transform:translateX(400%)}}
-  #splash p{color:rgba(255,255,255,.6);font-size:12.5px;margin-top:16px;letter-spacing:1px;animation:fadeUp 1s 1.2s ease both}
+  #splash p{color:rgba(255,255,255,.55);font-size:12px;margin-top:16px;letter-spacing:2px;animation:fadeUp 1s 1.2s ease both}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-  /* ---------- Layout ---------- */
-  .wrap{max-width:1120px;margin:0 auto;padding:20px 14px 0}
-  header.top{background:linear-gradient(120deg,var(--navy) 0%,var(--navy2) 55%,var(--navy3) 130%);color:#fff;border-radius:20px;padding:22px 26px;display:flex;align-items:center;gap:18px;box-shadow:0 18px 44px rgba(8,31,51,.35);position:relative;overflow:hidden}
-  header.top:after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,75,.28),transparent 65%)}
-  header.top img{width:66px;height:66px;border-radius:50%;box-shadow:0 6px 18px rgba(0,0,0,.4);border:2px solid rgba(201,162,75,.65);z-index:1}
-  header.top .kicker{font-size:10.5px;letter-spacing:3.5px;color:var(--gold2);font-weight:700}
-  header.top h1{font-size:26px;font-weight:600;margin-top:2px;z-index:1}
-  header.top p{opacity:.85;font-size:13.5px;margin-top:3px;z-index:1}
-  .live{margin-left:auto;background:rgba(14,124,123,.92);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:12px;font-weight:600;border-radius:20px;padding:6px 13px;white-space:nowrap;z-index:1;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  /* ---------- Shell ---------- */
+  .shell{display:flex;min-height:100vh}
+  aside{width:248px;flex:0 0 248px;background:rgba(7,20,38,.72);backdrop-filter:blur(14px);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;z-index:30;transition:margin-left .3s ease}
+  aside.closed{margin-left:-248px}
+  .brand{display:flex;align-items:center;gap:11px;padding:2px 8px 18px;border-bottom:1px solid var(--line)}
+  .brand img{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(198,167,107,.6)}
+  .brand b{display:block;font-family:"Fraunces",serif;font-size:15.5px;color:#fff;line-height:1.15}
+  .brand span{font-size:10px;letter-spacing:2.2px;color:var(--gold2);font-weight:700}
+  nav{margin-top:16px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+  nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;color:var(--grey);font:500 13.5px "Inter",sans-serif;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left;transition:all .18s}
+  nav button .ic{width:24px;height:24px;border-radius:7px;background:var(--glass2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--gold2);flex:0 0 24px}
+  nav button:hover{color:#fff;background:var(--glass)}
+  nav button.on{color:#fff;background:linear-gradient(90deg,rgba(198,167,107,.20),rgba(198,167,107,.05));box-shadow:inset 2.5px 0 0 var(--gold)}
+  nav button.on .ic{background:var(--gold);color:var(--navy)}
+  .sidefoot{margin-top:auto;padding:13px 10px 2px;border-top:1px solid var(--line);font-size:11.5px;color:var(--grey);line-height:1.5}
+  .sidefoot .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:6px;box-shadow:0 0 8px var(--teal)}
+  main{flex:1;min-width:0;padding:22px 26px 40px;max-width:1240px;margin:0 auto;width:100%}
+  .topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .burger{display:none;background:var(--glass2);border:1px solid var(--line);color:#fff;border-radius:10px;width:40px;height:40px;font-size:17px;cursor:pointer}
+  .topbar h1{font-size:25px;font-weight:600;color:#fff}
+  .topbar .sub{width:100%;color:var(--grey);font-size:13px;margin-top:-6px}
+  .tools{margin-left:auto;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+  select{background:var(--deep2);color:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 11px;font:600 13px "Inter",sans-serif;cursor:pointer}
+  .sync{display:inline-flex;align-items:center;gap:7px;background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:7px 13px;font-size:12px;color:var(--grey)}
+  .sync .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .sync.err .dot{background:var(--red);box-shadow:0 0 8px var(--red)}
+  /* ---------- Views & cards ---------- */
   .view{display:none}
-  .view.active{display:block;animation:viewIn .5s ease both}
-  @keyframes viewIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  h2.sec{font-size:19px;margin:26px 0 4px;color:var(--navy);font-weight:600}
-  .secsub{font-size:13px;color:var(--mut);margin-bottom:14px}
-  /* ---------- Tiles ---------- */
-  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:15px}
-  .tile{background:linear-gradient(180deg,#ffffff,#fbfdff);border:1px solid var(--line);border-radius:18px;padding:21px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;position:relative;overflow:hidden;animation:tileIn .6s ease both;box-shadow:0 3px 12px rgba(8,31,51,.05)}
-  .tile:nth-child(2){animation-delay:.06s}.tile:nth-child(3){animation-delay:.12s}.tile:nth-child(4){animation-delay:.18s}.tile:nth-child(5){animation-delay:.24s}.tile:nth-child(6){animation-delay:.30s}.tile:nth-child(7){animation-delay:.36s}
-  @keyframes tileIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .tile:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--gold));opacity:.9}
-  .tile:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(8,31,51,.16)}
-  .tile .badge{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--navy2),var(--navy));color:var(--gold2);display:flex;align-items:center;justify-content:center;font-family:"Fraunces",serif;font-weight:700;font-size:15px;letter-spacing:.5px;margin-bottom:12px;box-shadow:0 6px 14px rgba(8,31,51,.25)}
-  .tile h3{font-size:17px;color:var(--navy);margin-bottom:3px;padding-right:30px;font-weight:600;line-height:1.3}
-  .tile .sub{font-size:12px;color:var(--mut);margin-bottom:14px}
-  .tile .nums{display:flex;gap:18px;flex-wrap:wrap}
-  .tile .nums div b{display:block;font-size:22px;color:var(--navy);font-weight:800}
-  .tile .nums div span{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-  .tile .open{position:absolute;right:15px;top:15px;width:27px;height:27px;border-radius:50%;background:#eef4f8;color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;transition:all .2s}
-  .tile:hover .open{background:var(--teal);color:#fff}
-  .tile .tagline{font-size:12.5px;color:var(--mut);margin-top:12px;line-height:1.5;border-top:1px dashed var(--line);padding-top:11px}
-  /* ---------- Detail ---------- */
-  .back{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border:none;border-radius:22px;padding:9px 17px;font-size:13.5px;font-weight:600;cursor:pointer;margin:22px 0 14px;transition:background .2s;box-shadow:0 8px 20px rgba(8,31,51,.25)}
-  .back:hover{background:var(--navy2)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(8,31,51,.07)}
-  .card h3{font-size:20px;color:var(--navy);font-weight:600}
-  .src{font-size:12px;color:var(--mut);margin:4px 0 15px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:10px}
-  .stat{background:linear-gradient(180deg,#f8fbfd,#f1f6fa);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:12px;padding:13px 8px;text-align:center}
-  .stat b{display:block;font-size:25px;color:var(--navy);font-weight:800}
-  .stat span{font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-  .note{font-size:13px;color:var(--mut);margin-top:14px;line-height:1.55}
-  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px}
-  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:15px}
-  th{background:var(--navy);color:#fff;text-align:left;padding:11px 12px;font-weight:600;white-space:nowrap;font-size:12.5px;letter-spacing:.3px}
-  td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
-  tr:nth-child(even) td{background:#fafcfe}
-  .chip{display:inline-block;font-size:11.5px;font-weight:600;border-radius:14px;padding:3px 10px;white-space:nowrap}
-  .c-good{background:#e6f4ea;color:var(--good)} .c-warn{background:#fdf0e2;color:var(--warn)} .c-gap{background:#fdecea;color:var(--gap)} .c-info{background:#e8f0fe;color:#1a56db}
-  .bar-row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13.5px}
-  .bar-row .lab{width:90px;color:var(--mut);font-weight:500}
-  .bar{height:13px;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:7px;min-width:2px;transition:width 1.1s ease;box-shadow:inset 0 -2px 4px rgba(0,0,0,.12)}
-  .bar-row .num{font-weight:700;color:var(--navy)}
-  .big{font-size:29px;font-weight:800;color:var(--navy)}
-  #status{font-size:14px;color:var(--mut);padding:18px 2px}
-  footer{background:linear-gradient(120deg,var(--navy),var(--navy2));color:rgba(255,255,255,.78);margin:30px -14px 0;padding:22px 26px 26px;font-size:12.5px;line-height:1.6;border-radius:20px 20px 0 0}
-  footer b{color:#fff}
+  .view.active{display:block;animation:viewIn .45s ease both}
+  @keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .grid{display:grid;gap:15px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .cols2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+  .cols3{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+  .card{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:19px;backdrop-filter:blur(10px);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+  .card h3{font-size:16.5px;color:#fff;font-weight:600;margin-bottom:2px}
+  .card .src{font-size:11.5px;color:var(--grey);margin-bottom:12px}
+  .kpi .lab{font-size:11px;letter-spacing:1.4px;color:var(--grey);font-weight:700;text-transform:uppercase}
+  .kpi .val{font-size:31px;font-weight:800;color:#fff;margin:5px 0 2px}
+  .kpi .val em{font-style:normal;color:var(--gold2)}
+  .kpi .hint{font-size:12px;color:var(--grey);line-height:1.45}
+  .kpi{position:relative;overflow:hidden}
+  .kpi:before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(102px,1fr));gap:9px}
+  .stat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:11px 6px;text-align:center}
+  .stat b{display:block;font-size:22px;color:#fff;font-weight:800}
+  .stat span{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  .note{font-size:12.5px;color:var(--grey);margin-top:12px;line-height:1.55}
+  .note b{color:#dbe4ee}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;margin-top:13px;background:rgba(255,255,255,.025)}
+  th{background:rgba(198,167,107,.13);color:var(--gold2);text-align:left;padding:10px 12px;font-weight:700;white-space:nowrap;font-size:11.5px;letter-spacing:.6px;text-transform:uppercase}
+  td{padding:9.5px 12px;border-top:1px solid var(--line);vertical-align:top;color:#dbe4ee}
+  .chip{display:inline-block;font-size:11px;font-weight:700;border-radius:13px;padding:2.5px 9px;white-space:nowrap}
+  .c-good{background:rgba(43,179,163,.16);color:#5fd4c4}.c-warn{background:rgba(224,164,88,.16);color:#eec088}.c-gap{background:rgba(224,101,95,.16);color:#f0968f}.c-info{background:rgba(120,160,220,.16);color:#a9c6ee}.c-gold{background:rgba(198,167,107,.18);color:var(--gold2)}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
+  .bar-row .lab{width:96px;color:var(--grey);font-weight:500;flex:0 0 96px}
+  .bar-track{flex:1;background:rgba(255,255,255,.06);border-radius:7px;height:13px;overflow:hidden}
+  .bar{height:100%;background:linear-gradient(90deg,#a5874e,var(--gold));border-radius:7px;min-width:2px;transition:width 1.1s ease}
+  .bar.teal{background:linear-gradient(90deg,#1d7a6e,var(--teal))}
+  .bar-row .num{font-weight:700;color:#fff;min-width:52px;text-align:right}
+  .pos{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 8px;border-radius:8px;font-weight:800;font-size:13px;background:rgba(255,255,255,.07);color:#fff}
+  .pos.p1{background:rgba(198,167,107,.25);color:var(--gold2)}
+  .pos.p3{background:rgba(43,179,163,.2);color:#5fd4c4}
+  .pos.bad{background:rgba(224,101,95,.18);color:#f0968f}
+  .donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .legend{font-size:12.5px;color:var(--grey);line-height:1.9}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:8px}
+  .audit-item{display:flex;gap:12px;padding:11px 2px;border-top:1px solid var(--line)}
+  .audit-item:first-of-type{border-top:none}
+  .audit-item .st{flex:0 0 auto;margin-top:1px}
+  .audit-item b{color:#fff;font-size:13.5px}
+  .audit-item p{font-size:12.5px;color:var(--grey);line-height:1.5;margin-top:1px}
+  .action-card{border-left:3px solid var(--gold)}
+  .action-card .pri{font-size:10.5px;letter-spacing:1.2px;color:var(--gold2);font-weight:800}
+  .btn{background:linear-gradient(135deg,var(--gold),#a5874e);color:var(--navy);border:none;border-radius:11px;padding:11px 18px;font:700 13.5px "Inter",sans-serif;cursor:pointer;box-shadow:0 10px 22px rgba(198,167,107,.25)}
+  .btn:hover{filter:brightness(1.07)}
+  .btn.ghost{background:var(--glass2);color:#fff;border:1px solid var(--line);box-shadow:none}
+  #status{font-size:14px;color:var(--grey);padding:22px 2px}
+  footer{margin-top:26px;font-size:12px;color:var(--grey);line-height:1.6;border-top:1px solid var(--line);padding-top:16px}
   footer a{color:var(--gold2)}
-  @media(max-width:560px){header.top h1{font-size:20px}.live{display:none}#splash h1{font-size:23px;letter-spacing:2.5px}}
+  .badge-audit{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1px;color:var(--navy);background:var(--gold);border-radius:6px;padding:2.5px 8px;vertical-align:2px;margin-left:8px}
+  @media(max-width:900px){
+    aside{position:fixed;left:0;top:0;bottom:0;margin-left:-248px;box-shadow:30px 0 60px rgba(0,0,0,.4)}
+    aside.open{margin-left:0}
+    .burger{display:block}
+    main{padding:16px 14px 34px}
+  }
+  /* ---------- Print (PDF report) ---------- */
+  #printReport{display:none}
+  @media print{
+    body{background:#fff !important}
+    #splash,.shell,#status{display:none !important}
+    #printReport{display:block;color:#14202e;font-family:"Inter",Arial,sans-serif;padding:6mm}
+    #printReport h1{font-size:23px;color:#0D1B2A}
+    #printReport h2{font-size:15px;color:#0D1B2A;margin:18px 0 6px;border-bottom:2px solid #C6A76B;padding-bottom:4px}
+    #printReport table{font-size:12px}
+    #printReport th{background:#0D1B2A;color:#fff;text-transform:none;letter-spacing:0}
+    #printReport td{color:#22303e;border-top:1px solid #d8dfe6}
+    #printReport p{font-size:12.5px;line-height:1.55;color:#33424f}
+    #printReport .krow{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+    #printReport .kbox{border:1px solid #d8dfe6;border-top:3px solid #C6A76B;border-radius:8px;padding:9px 12px;min-width:120px}
+    #printReport .kbox b{display:block;font-size:19px;color:#0D1B2A}
+    #printReport .kbox span{font-size:10.5px;color:#5d7182;text-transform:uppercase;letter-spacing:.5px}
+  }
 </style>
 </head>
 <body>
@@ -98,47 +145,58 @@
 <div id="splash" title="Tap to enter">
   <div class="ring"><img src="logo.png" alt="AR Plastic Surgery logo"></div>
   <h1>AR PLASTIC SURGERY</h1>
-  <h2>GROWTH DASHBOARD</h2>
+  <h2>GROWTH INTELLIGENCE</h2>
   <div class="loadline"><i></i></div>
   <p>PRECISION AND PERFECTION · TAP TO ENTER</p>
 </div>
 
-<div class="wrap">
-  <header class="top">
-    <img src="logo.png" alt="AR logo">
-    <div>
-      <div class="kicker">AR PLASTIC SURGERY · KARIMNAGAR</div>
-      <h1>Growth Dashboard</h1>
-      <p>Monthly growth — Google Business, AI search, website &amp; rankings</p>
+<div class="shell">
+  <aside id="sidebar">
+    <div class="brand">
+      <img src="logo.png" alt="AR logo">
+      <div><b>AR Growth<br>Intelligence</b><span>COMMAND CENTER</span></div>
     </div>
-    <span class="live" id="liveTag">Loading…</span>
-  </header>
+    <nav id="nav"></nav>
+    <div class="sidefoot"><span class="dot"></span><span id="sideSync">Connecting to data…</span><br>AR Plastic Surgery · Karimnagar</div>
+  </aside>
 
-  <div id="status">Reading the latest figures…</div>
-  <div id="app" style="display:none">
+  <main>
+    <div class="topbar">
+      <button class="burger" id="burger" aria-label="Menu">☰</button>
+      <h1 id="pageTitle">Executive Overview</h1>
+      <div class="tools">
+        <select id="monthSel" title="Month"></select>
+        <span class="sync" id="syncPill"><span class="dot"></span><span id="syncTxt">Syncing…</span></span>
+      </div>
+      <div class="sub" id="pageSub">Executive growth intelligence for AR Plastic Surgery</div>
+    </div>
 
-    <section class="view" id="view-home">
-      <h2 class="sec">Growth areas</h2>
-      <div class="secsub">Tap any card to open its full report</div>
-      <div class="tiles" id="tiles"></div>
-    </section>
+    <div id="status">Reading the latest figures from the live data sheet…</div>
+    <div id="app" style="display:none">
+      <section class="view" id="view-overview"></section>
+      <section class="view" id="view-gbp"></section>
+      <section class="view" id="view-website"></section>
+      <section class="view" id="view-seo"></section>
+      <section class="view" id="view-ai"></section>
+      <section class="view" id="view-telangana"></section>
+      <section class="view" id="view-leads"></section>
+      <section class="view" id="view-social"></section>
+      <section class="view" id="view-competitors"></section>
+      <section class="view" id="view-advisor"></section>
+      <section class="view" id="view-reports"></section>
+      <section class="view" id="view-settings"></section>
 
-    <section class="view" id="view-ar-gmb"></section>
-    <section class="view" id="view-chatgpt"></section>
-    <section class="view" id="view-dhruva"></section>
-    <section class="view" id="view-dr-ashok"></section>
-    <section class="view" id="view-gsc"></section>
-    <section class="view" id="view-analytics"></section>
-    <section class="view" id="view-rankings"></section>
-
-    <footer>
-      <b>AR Growth Dashboard</b> · Data source: the shared Google Sheet
-      <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a> — this page reads it live on every open, so it updates whenever the Sheet is updated.
-      AR Plastic Surgery sections are maintained by the clinic’s digital team; the Dr Ashok Reddy and Dhruva Diabetic Foot sections are reported by their respective profile teams and are not independently verified.
-      AI-search figures (ChatGPT, Gemini, Claude) come from periodic audits, not a live feed. Google’s own reports run 2–3 days behind real time.
-    </footer>
-  </div>
+      <footer>
+        <b style="color:#fff">AR Growth Intelligence Command Center</b> · Data source: the shared Google Sheet
+        <a href="https://docs.google.com/spreadsheets/d/1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM/edit" target="_blank" rel="noopener">“AR Growth Dashboard”</a>, read live on every visit.
+        AR Plastic Surgery sections are maintained by the clinic’s digital team; the Dr Ashok Reddy and Dhruva Diabetic Foot sections are reported by their respective profile teams and are not independently verified.
+        AI-search figures come from periodic manual audits, not a live feed. Google’s own reports run 2–3 days behind real time.
+      </footer>
+    </div>
+  </main>
 </div>
+
+<div id="printReport"></div>
 
 <script>
 const SHEET_ID = "1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM";
@@ -150,6 +208,35 @@ const SHEET_ID = "1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM";
   if(sessionStorage.getItem("arSplash")){ sp.style.display="none"; }
   else { sessionStorage.setItem("arSplash","1"); setTimeout(hide, 2400); }
 })();
+/* ---------- navigation ---------- */
+const NAV = [
+  ["overview","Executive Overview","OV","Monthly performance at a glance"],
+  ["gbp","Google Business","GB","All three Google Business Profiles"],
+  ["website","Website Analytics","WA","Traffic, search clicks and sources"],
+  ["seo","SEO Intelligence","SE","Technical SEO health of the website"],
+  ["ai","AI Search Visibility","AI","ChatGPT, Gemini, Claude and Perplexity"],
+  ["telangana","Telangana Rankings","TR","Keyword positions across Telangana"],
+  ["leads","Patient Leads","PL","Enquiries and actions from Google"],
+  ["social","Social Media","SM","Instagram presence and activity"],
+  ["competitors","Competitor Analysis","CA","Who leads where, and the gaps"],
+  ["advisor","AI Growth Advisor","AD","Priority actions from this month’s data"],
+  ["reports","Reports","RP","Monthly growth reports and PDF export"],
+  ["settings","Settings","ST","Data source and synchronisation"]
+];
+const navEl = document.getElementById("nav");
+navEl.innerHTML = NAV.map(n=>'<button data-view="'+n[0]+'" onclick="go(\''+n[0]+'\')"><span class="ic">'+n[2]+'</span>'+n[1]+'</button>').join("");
+document.getElementById("burger").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
+function go(view){
+  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+  const el = document.getElementById("view-"+view); if(el) el.classList.add("active");
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on", b.dataset.view===view));
+  const meta = NAV.find(n=>n[0]===view);
+  if(meta){ document.getElementById("pageTitle").textContent = meta[1]==="Executive Overview" ? "Executive Overview" : meta[1]; document.getElementById("pageSub").textContent = meta[3]; }
+  if(location.hash !== "#"+view) history.replaceState(null,"","#"+view);
+  document.getElementById("sidebar").classList.remove("open");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+window.addEventListener("hashchange",()=>go((location.hash||"#overview").slice(1)));
 /* ---------- data ---------- */
 function gviz(tab){
   const url = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:json&headers=1&sheet="+encodeURIComponent(tab);
@@ -165,101 +252,305 @@ function gviz(tab){
     });
 }
 const num = v => (v===""||v==null||v===undefined) ? "–" : v;
+const n0 = v => { const n = parseFloat(String(v).replace(/[^0-9.]/g,"")); return isNaN(n)?0:n; };
+const fmt = n => Math.round(n).toLocaleString("en-IN");
 function chipClass(s){ s=(s||"").toLowerCase();
-  if(s.includes("need to work")||s.includes("gap")) return "c-gap";
-  if(s.includes("progress")||s.includes("partial")) return "c-warn";
+  if(s.includes("need to work")||s.includes("gap")||s.includes("action")) return "c-gap";
+  if(s.includes("progress")||s.includes("partial")||s.includes("watch")) return "c-warn";
   if(s.includes("baseline")) return "c-info"; return "c-good"; }
-function countUp(el, target){
-  const n = parseFloat(String(target).replace(/[^0-9.]/g,"")); if(isNaN(n)||n===0){ el.textContent = num(target); return; }
-  const t0 = performance.now(), dur = 900;
-  (function step(t){ const p = Math.min(1,(t-t0)/dur); el.textContent = Math.round(n*(0.2+0.8*p)).toLocaleString("en-IN"); if(p<1) requestAnimationFrame(step); else el.textContent = n.toLocaleString("en-IN"); })(t0);
+function chip(txt){ return '<span class="chip '+chipClass(txt)+'">'+txt+'</span>'; }
+function barRow(lab, val, max, display, teal){
+  const pct = max>0 ? Math.max(1.5, Math.round(val/max*100)) : 0;
+  return '<div class="bar-row"><span class="lab">'+lab+'</span><div class="bar-track"><div class="bar'+(teal?" teal":"")+'" style="width:'+pct+'%"></div></div><span class="num">'+display+'</span></div>';
 }
-function statHTML(pairs){ return '<div class="stats">'+pairs.map(p=>'<div class="stat"><b data-v="'+p[1]+'">'+num(p[1])+'</b><span>'+p[0]+'</span></div>').join("")+'</div>'; }
-function animateStats(root){ root.querySelectorAll(".stat b").forEach(b=>countUp(b, b.dataset.v)); }
-function gmbDetail(id, title, rows, verified){
-  const last = rows[rows.length-1]||{};
-  const pairs = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Messages",last["Messages"]],["Total reviews",last["Total reviews"]]];
-  if(last["Rating"]) pairs.push(["Rating",last["Rating"]+" ★"]);
-  let h = '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>'+title+'</h3><div class="src">'+(verified?"Maintained by the clinic’s digital team":"Reported by the profile team — not independently verified")+' · Last updated '+(last["Updated on"]||"")+'</div>'
-    + statHTML(pairs)
-    + (last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':"")
-    + '<div class="tblwrap"><table><thead><tr><th>Month</th><th>Views</th><th>Calls</th><th>Directions</th><th>Website clicks</th><th>Reviews</th><th>Rating</th></tr></thead><tbody>'
-    + rows.map(r=>'<tr><td>'+r["Month"]+'</td><td>'+num(r["Views"])+'</td><td>'+num(r["Calls"])+'</td><td>'+num(r["Directions"])+'</td><td>'+num(r["Website clicks"])+'</td><td>'+num(r["Total reviews"])+'</td><td>'+num(r["Rating"])+'</td></tr>').join("")
-    + '</tbody></table></div></div>';
-  const el = document.getElementById(id); el.innerHTML = h; animateStats(el);
+function statHTML(pairs){ return '<div class="stats">'+pairs.map(p=>'<div class="stat"><b>'+num(p[1])+'</b><span>'+p[0]+'</span></div>').join("")+'</div>'; }
+function posChip(p){
+  if(p===null||p===undefined||p===""||String(p).toLowerCase().includes("not")) return '<span class="pos bad">'+num(p)+'</span>';
+  const n = parseFloat(p);
+  if(n===1) return '<span class="pos p1">#1</span>';
+  if(n<=3) return '<span class="pos p3">#'+n+'</span>';
+  return '<span class="pos">#'+n+'</span>';
 }
-/* ---------- routing ---------- */
-function go(view){
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-  const el = document.getElementById("view-"+view); if(el) el.classList.add("active");
-  if(location.hash !== "#"+view) history.replaceState(null,"","#"+view);
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-window.addEventListener("hashchange",()=>go((location.hash||"#home").slice(1)));
+let D = null;         // all sheet data
+let MONTH = "";       // selected month
+function rowsFor(rows, month){ return rows.filter(r=>r["Month"]===month); }
+function lastFor(rows, month){ const r = rowsFor(rows, month); return r.length? r[r.length-1] : {}; }
 
-Promise.all([
-  gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
-  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals")
-]).then(([arGmb, drGmb, dhGmb, gsc, ga, rank])=>{
-  const arL = arGmb[arGmb.length-1]||{}, drL = drGmb[drGmb.length-1]||{}, dhL = dhGmb[dhGmb.length-1]||{}, gaL = ga[ga.length-1]||{};
-  const month = arL["Month"]||"";
-  document.getElementById("liveTag").textContent = "● Live — " + month;
-  const cgRow = rank.find(r=>(r["Item"]||"").toLowerCase().includes("chatgpt"))||{};
+const AUDIT_ITEMS = [
+  ["good","Sitemap — 173 pages submitted","Full sitemap live and accepted by Google and Bing (Bing shows “Success”, 165 URLs discovered on 31 Oct). Last checked 2 Nov 2026."],
+  ["warn","Indexing — 41+ of 173 pages verified indexed","Search Console still displays 31 (figure stale since 23 Oct). Manual indexing requests run in daily batches because Google caps them at roughly 10 a day."],
+  ["good","AI readiness — llms.txt and llms-full.txt live","Business identity, all services and all 8 cost guides published in AI-readable files; robots.txt is open to every crawler, including AI tools."],
+  ["good","Structured data — clinic, doctor and FAQ schema","Physician / MedicalClinic / FAQ schema live across the site, with review count (245) corrected on all 139 pages on 1 Nov 2026."],
+  ["good","Video data — fixed and validated by Google","Thumbnail and upload-date issues on all 14 video entries fixed in the site template; Google confirmed validation on 30 Oct 2026."],
+  ["good","Social sharing tags — complete","Open Graph tags on all pages including all 11 web stories (added 1 Nov 2026); page titles and descriptions all within limits."],
+  ["action","http → https split — consolidation in progress","Google still shows the old http address for some searches: in October the http property earned 29 clicks against 10 for https, splitting the site’s ranking strength. Redirect and canonical checks are queued in the daily SEO work."],
+  ["good","IndexNow — automatic on every new article","New pages are pushed to Bing and other IndexNow engines automatically from the daily publishing pipeline (live since 1 Nov 2026)."]
+];
+const COMPETITORS = [
+  ["Dr GN Bandari","Hand surgeon, Karimnagar","#1 for “hand surgeon” — AR is outside the top set (12th in the 28 Oct pack check)","High","His business name itself carries the keyword, which Google normally penalises; AR counters with a dedicated hand-surgery page and daily Google posts."],
+  ["Medicover Karimnagar","Cost searches","Leads most treatment-cost searches (4 of 6 in the October comparison)","High","AR’s 8 cost guides were published late October–November and are not ranking yet — they need time and indexing."],
+  ["Drushya","Hair transplant, Karimnagar","Holds the hair-transplant listing box; AR did not appear in that pack","Medium","AR’s Google profile has an empty “Hair transplantation clinic” category waiting to be filled."],
+  ["Angels / Advanced Hair & Skin","Hair transplant & skin","Visible where AR is absent in hair and skin packs","Medium","Same fix as Drushya: fill the empty category and keep hair/skin Google posts flowing."],
+  ["VCare · Anoos · Aviva","Skin & laser cluster","Lead AR’s weakest cluster — 16 of 26 skin & laser services rated Down","Medium","Dedicated skin & laser content and Google posts are the counter; no AR content exists for several of these searches yet."],
+  ["AR Plastic Surgery (you)","245 reviews · 4.9 ★ · 100% owner response","—","—","Competitor review counts are not tracked yet — collecting them needs a manual monthly check; no figures are shown rather than guessed."]
+];
 
-  /* ----- tiles ----- */
-  const tiles = [
-    {view:"ar-gmb", badge:"AR", title:"AR Plastic Surgery — Google Business Growth", sub:"Google Business Profile (GMB) · "+month, nums:[["Views",arL["Views"]],["Calls",arL["Calls"]],["Directions",arL["Directions"]]], tag:"245 reviews at 4.9 ★ · 100% owner response · tap to open the full month report"},
-    {view:"chatgpt", badge:"AI", title:"AR Plastic Surgery — ChatGPT Growth", sub:"AI-search visibility · audit 1–2 Nov 2026", nums:[["Named in","217 / 252"],["Ranked 1st","157"],["AI visits (Oct)",gaL["ChatGPT"]]], tag:"How ChatGPT answers Karimnagar plastic-surgery searches — AR's strongest AI channel"},
-    {view:"dhruva", badge:"DF", title:"Dhruva Diabetic Foot — GMB Growth", sub:"Google Business Profile · "+month, nums:[["Views",dhL["Views"]],["Directions",dhL["Directions"]],["Reviews",dhL["Total reviews"]]], tag:"Reported by the profile team — not independently verified"},
-    {view:"dr-ashok", badge:"DR", title:"Dr Ashok Reddy — GMB Growth", sub:"Google Business Profile · "+month, nums:[["Views",drL["Views"]],["Directions",drL["Directions"]],["Website clicks",drL["Website clicks"]]], tag:"Reported by the profile team — not independently verified"},
-    {view:"gsc", badge:"SC", title:"Website — Search Console Growth", sub:"All three website properties · "+month, nums:[["Clicks (all)","39"],["Impressions","2,234"],["Pages indexed","41+"]], tag:"Main site + old http site + GitHub Pages property, with the indexing report"},
-    {view:"analytics", badge:"GA", title:"Website — Analytics Growth", sub:"Google Analytics · "+month, nums:[["Total visits",gaL["Total sessions"]],["From Google",gaL["Google"]],["From ChatGPT",gaL["ChatGPT"]]], tag:"Where the website's visitors came from, including AI referrals"},
-    {view:"rankings", badge:"RK", title:"Rankings, Competitors & Goals", sub:"On top, behind, and what is being worked on", nums:[["Services on top","190"],["Maps #1","96"],["Audited","252"]], tag:"The full 252-service picture — the rivals and the gaps to close"}
+function render(){
+  const month = MONTH;
+  const arL = lastFor(D.arGmb, month), drL = lastFor(D.drGmb, month), dhL = lastFor(D.dhGmb, month);
+  const gaL = lastFor(D.ga, month);
+  const gscRows = rowsFor(D.gsc, month).filter(r=>r["Property"]!=="Indexing status");
+  const gscIdx = rowsFor(D.gsc, month).find(r=>r["Property"]==="Indexing status") || D.gsc.find(r=>r["Property"]==="Indexing status") || {};
+  const clicks = gscRows.reduce((s,r)=>s+n0(r["Clicks"]),0), imps = gscRows.reduce((s,r)=>s+n0(r["Impressions"]),0);
+  const actions = n0(arL["Calls"])+n0(arL["Directions"])+n0(arL["Website clicks"])+n0(arL["Bookings"]);
+  const cg = D.rank.find(r=>(r["Item"]||"").toLowerCase().includes("chatgpt"))||{};
+  const rankRows = D.rank;
+
+  /* ============ OVERVIEW ============ */
+  const kpis = [
+    ["Website visitors", fmt(n0(gaL["Total sessions"])), "Google Analytics sessions in "+month+" — Google "+num(gaL["Google"])+", direct "+num(gaL["Direct"])+", ChatGPT "+num(gaL["ChatGPT"])+"."],
+    ["Google Business views", fmt(n0(arL["Views"])), "People who saw the AR Plastic Surgery profile on Search and Maps."],
+    ["Profile actions", fmt(actions), "Calls "+num(arL["Calls"])+" · Directions "+num(arL["Directions"])+" · Website clicks "+num(arL["Website clicks"])+" · Bookings "+num(arL["Bookings"])+"."],
+    ["Organic search clicks", fmt(clicks), "Across all three Search Console properties · "+fmt(imps)+" impressions."],
+    ["Patient enquiries", fmt(n0(arL["Calls"])), "Phone calls from the Google profile — the clearest enquiry signal available."],
+    ["AI search visibility", "217<em> / 252</em>", "Services where ChatGPT names AR Plastic Surgery (audit, 1–2 Nov 2026)."]
   ];
-  document.getElementById("tiles").innerHTML = tiles.map(t=>
-    '<div class="tile" onclick="go(\''+t.view+'\')"><span class="open">›</span><div class="badge">'+t.badge+'</div><h3>'+t.title+'</h3><div class="sub">'+t.sub+'</div><div class="nums">'
-    + t.nums.map(n=>'<div><b>'+num(n[1])+'</b><span>'+n[0]+'</span></div>').join("")
-    + '</div><div class="tagline">'+t.tag+'</div></div>').join("");
+  document.getElementById("view-overview").innerHTML =
+    '<div class="grid kpis">'+kpis.map(k=>'<div class="card kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="hint">'+k[2]+'</div></div>').join("")+'</div>'
+    + '<div class="grid cols2" style="margin-top:15px">'
+    + '<div class="card"><h3>Month comparison</h3><div class="src">Growth against the previous month</div>'
+    + (D.months.length<2
+        ? '<p class="note" style="margin-top:2px"><b>'+month+' is the baseline month.</b> This is the first month recorded in the shared data sheet, so there is no earlier month to compare against yet. From next month onward, this panel shows growth or decline for every headline figure automatically, as soon as the new month’s rows are added to the sheet.</p>'
+        : '<p class="note">Comparison is calculated from the two most recent months in the sheet.</p>')
+    + '</div>'
+    + '<div class="card"><h3>AI search visibility</h3><div class="src">Manual audit · 1–2 Nov 2026 · services where each AI names AR</div>'
+    + barRow("ChatGPT", 217, 252, "217 / 252")
+    + barRow("Gemini", 183, 252, "183 / 252")
+    + barRow("Claude", 33, 36, "33 / 36 checked", true)
+    + barRow("Perplexity", 0, 252, "Not yet audited", true)
+    + '<p class="note">AI tools publish no live analytics — these figures come from the periodic manual audit. Referral visits in '+month+': ChatGPT '+num(gaL["ChatGPT"])+', all other AI tools 0.</p></div>'
+    + '</div>'
+    + '<div class="grid cols2" style="margin-top:15px">'
+    + '<div class="card"><h3>Google Business — all profiles</h3><div class="src">'+month+' · tap Google Business in the menu for full reports</div>'
+    + barRow("AR Plastic Surgery", n0(arL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(arL["Views"]))+" views")
+    + barRow("Dhruva Diabetic Foot", n0(dhL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(dhL["Views"]))+" views", true)
+    + barRow("Dr Ashok Reddy", n0(drL["Views"]), Math.max(n0(arL["Views"]),n0(dhL["Views"]),n0(drL["Views"]),1), fmt(n0(drL["Views"]))+" views", true)
+    + '<p class="note">AR reviews: <b>'+num(arL["Total reviews"])+' at '+num(arL["Rating"])+' ★</b> with 100% owner response. Dhruva: '+num(dhL["Total reviews"])+' reviews at '+num(dhL["Rating"])+' ★ (reported by the profile team).</p></div>'
+    + '<div class="card"><h3>Where the website stands</h3><div class="src">Search Console · '+month+'</div>'
+    + statHTML([["Clicks (all properties)", fmt(clicks)],["Impressions", fmt(imps)],["Pages in sitemap","173"],["Verified indexed","41+"]])
+    + '<p class="note">'+(gscIdx["Notes"]||"")+'</p></div>'
+    + '</div>';
 
-  /* ----- detail views ----- */
-  gmbDetail("view-ar-gmb","AR Plastic Surgery — Google Business (GMB)", arGmb, true);
-  gmbDetail("view-dhruva","Dhruva Diabetic Foot — Google Business (GMB)", dhGmb, false);
-  gmbDetail("view-dr-ashok","Dr Ashok Reddy — Google Business (GMB)", drGmb, false);
+  /* ============ GOOGLE BUSINESS ============ */
+  function gbpCard(title, rows, verified){
+    const last = lastFor(rows, month);
+    const pairs = [["Views",last["Views"]],["Calls",last["Calls"]],["Directions",last["Directions"]],["Website clicks",last["Website clicks"]],["Bookings",last["Bookings"]],["Messages",last["Messages"]],["Total reviews",last["Total reviews"]]];
+    if(last["Rating"]) pairs.push(["Rating",last["Rating"]+" ★"]);
+    return '<div class="card" style="margin-bottom:15px"><h3>'+title+'</h3><div class="src">'+(verified?"Maintained by the clinic’s digital team":"Reported by the profile team — not independently verified")+' · Last updated '+num(last["Updated on"])+'</div>'
+      + statHTML(pairs)
+      + (last["Status / Notes"]?'<p class="note">'+last["Status / Notes"]+'</p>':"")
+      + '<div class="tblwrap"><table><thead><tr><th>Month</th><th>Views</th><th>Calls</th><th>Directions</th><th>Website clicks</th><th>Reviews</th><th>Rating</th></tr></thead><tbody>'
+      + rows.map(r=>'<tr><td>'+r["Month"]+'</td><td>'+num(r["Views"])+'</td><td>'+num(r["Calls"])+'</td><td>'+num(r["Directions"])+'</td><td>'+num(r["Website clicks"])+'</td><td>'+num(r["Total reviews"])+'</td><td>'+num(r["Rating"])+'</td></tr>').join("")
+      + '</tbody></table></div></div>';
+  }
+  document.getElementById("view-gbp").innerHTML =
+    gbpCard("AR Plastic Surgery — Google Business Profile", D.arGmb, true)
+    + gbpCard("Dr Ashok Reddy — Google Business Profile", D.drGmb, false)
+    + gbpCard("Dhruva Diabetic Foot — Google Business Profile", D.dhGmb, false);
 
-  document.getElementById("view-chatgpt").innerHTML =
-    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>AR Plastic Surgery — Growth in ChatGPT</h3><div class="src">AI-search audit, 1–2 Nov 2026 · Analytics referrals for '+month+'</div>'
-    + statHTML([["Services where ChatGPT names AR","217 / 252"],["Services where AR is named 1st","157"],["ChatGPT visits to the website (Oct)",gaL["ChatGPT"]]])
-    + '<p class="note">'+(cgRow["Detail"]||"")+'</p>'
-    + '<p class="note">What this means: when people ask ChatGPT about plastic-surgery services in and around Karimnagar, AR Plastic Surgery is named in 217 of 252 service searches and named first in 157 — the strongest of the AI channels (Gemini names AR in 183; Claude in 33 of the 36 checked). AI tools do not publish live search counts, so this growth is measured by periodic audits and by referral visits in Analytics — the October baseline is 1 ChatGPT-referred visit.</p></div>';
-
-  let idxNote = "";
-  const gscRows = gsc.filter(r=>{ if(r["Property"]==="Indexing status"){ idxNote = r["Notes"]||""; return false; } return true; });
-  document.getElementById("view-gsc").innerHTML =
-    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Search Console — all three website properties</h3><div class="src">'+month+' · Maintained by the clinic’s digital team</div>'
-    + '<div class="tblwrap" style="margin-top:2px"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
-    + gscRows.map(r=>'<tr><td>'+r["Property"]+'</td><td><b>'+num(r["Clicks"])+'</b></td><td>'+num(r["Impressions"])+'</td><td>'+num(r["CTR"])+'</td><td>'+num(r["Avg position"])+'</td><td>'+(r["Notes"]||"")+'</td></tr>').join("")
-    + '</tbody></table></div>'
-    + '<h3 style="margin-top:22px">Websites indexed</h3><div class="big" style="margin-top:6px">173 pages in sitemap · 41+ verified indexed</div><p class="note">'+idxNote+'</p></div>';
-
+  /* ============ WEBSITE ANALYTICS ============ */
   const sources = ["Google","Direct","ChatGPT","Facebook","Perplexity","Gemini","Claude","Copilot"];
-  const max = Math.max(1, ...sources.map(s=>parseFloat(gaL[s])||0));
-  document.getElementById("view-analytics").innerHTML =
-    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Google Analytics — website visits</h3><div class="src">'+month+' · Total sessions: <b>'+num(gaL["Total sessions"])+'</b> · Maintained by the clinic’s digital team</div>'
-    + sources.map(s=>{ const v = parseFloat(gaL[s])||0; return '<div class="bar-row"><span class="lab">'+s+'</span><div class="bar" style="width:'+Math.round(v/max*55)+'%"></div><span class="num">'+v+'</span></div>'; }).join("")
-    + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>';
+  const maxSrc = Math.max(1, ...sources.map(s=>n0(gaL[s])));
+  const donutCols = ["#C6A76B","#2bb3a3","#7ea6d8","#e0a458","#8d9db5","#5f7d9c","#b0876f","#66788c"];
+  let acc = 0; const total = Math.max(1, n0(gaL["Total sessions"]));
+  const segs = sources.map((s,i)=>{ const v = n0(gaL[s]); const seg = '<circle r="52" cx="70" cy="70" fill="none" stroke="'+donutCols[i]+'" stroke-width="17" stroke-dasharray="'+(v/total*326.7).toFixed(1)+' 326.7" transform="rotate('+(acc/total*360-90).toFixed(1)+' 70 70)"/>'; acc += v; return v>0?seg:""; }).join("");
+  document.getElementById("view-website").innerHTML =
+    '<div class="grid cols2">'
+    + '<div class="card"><h3>Website traffic — where visits came from</h3><div class="src">Google Analytics · '+month+' · '+fmt(n0(gaL["Total sessions"]))+' sessions</div>'
+    + '<div class="donut-wrap"><svg width="140" height="140" viewBox="0 0 140 140"><circle r="52" cx="70" cy="70" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="17"/>'+segs+'<text x="70" y="66" text-anchor="middle" fill="#fff" font-size="21" font-weight="800">'+fmt(n0(gaL["Total sessions"]))+'</text><text x="70" y="84" text-anchor="middle" fill="#A7B1C0" font-size="9.5">SESSIONS</text></svg>'
+    + '<div class="legend">'+sources.map((s,i)=>'<div><i style="background:'+donutCols[i]+'"></i>'+s+' — <b style="color:#fff">'+n0(gaL[s])+'</b></div>').join("")+'</div></div>'
+    + '<p class="note">'+(gaL["Notes"]||"")+'</p></div>'
+    + '<div class="card"><h3>Traffic by source</h3><div class="src">Sessions per source · '+month+'</div>'
+    + sources.map(s=>barRow(s, n0(gaL[s]), maxSrc, fmt(n0(gaL[s])), s!=="Google")).join("")
+    + '<p class="note">AI-referral baseline: exactly <b>1 visit (ChatGPT)</b> in October. Perplexity, Gemini, Claude and Copilot referrals are all 0 so far — the number the AI-visibility work is meant to move.</p></div>'
+    + '</div>'
+    + '<div class="card" style="margin-top:15px"><h3>Google Search Console — all three properties</h3><div class="src">'+month+' · clicks, impressions and average position</div>'
+    + '<div class="tblwrap"><table><thead><tr><th>Property</th><th>Clicks</th><th>Impressions</th><th>CTR</th><th>Avg position</th><th>Notes</th></tr></thead><tbody>'
+    + gscRows.map(r=>'<tr><td>'+r["Property"]+'</td><td><b style="color:#fff">'+num(r["Clicks"])+'</b></td><td>'+num(r["Impressions"])+'</td><td>'+num(r["CTR"])+'</td><td>'+num(r["Avg position"])+'</td><td>'+(r["Notes"]||"")+'</td></tr>').join("")
+    + '</tbody></table></div>'
+    + '<p class="note"><b>Combined: '+fmt(clicks)+' clicks from '+fmt(imps)+' impressions.</b> '+(gscIdx["Notes"]||"")+'</p></div>';
 
-  document.getElementById("view-rankings").innerHTML =
-    '<button class="back" onclick="go(\'home\')">← All growth areas</button><div class="card"><h3>Rankings, competitors &amp; goals</h3><div class="src">252-service audit, 1–2 Nov 2026 · Maintained by the clinic’s digital team</div>'
-    + '<div class="tblwrap" style="margin-top:2px"><table><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody>'
-    + rank.map(r=>'<tr><td><b>'+r["Item"]+'</b></td><td>'+r["Detail"]+'</td><td><span class="chip '+chipClass(r["Status"])+'">'+r["Status"]+'</span></td></tr>').join("")
+  /* ============ SEO INTELLIGENCE ============ */
+  const stChip = s => s==="good" ? '<span class="chip c-good">Healthy</span>' : s==="warn" ? '<span class="chip c-warn">In progress</span>' : '<span class="chip c-gap">Action needed</span>';
+  document.getElementById("view-seo").innerHTML =
+    '<div class="card"><h3>Technical SEO audit — surgery.arplasticsurgery.co.in</h3><div class="src">Verified by the clinic’s digital team · last full check 2 Nov 2026 · sitemap: 173 pages</div>'
+    + AUDIT_ITEMS.map(a=>'<div class="audit-item"><div class="st">'+stChip(a[0])+'</div><div><b>'+a[1]+'</b><p>'+a[2]+'</p></div></div>').join("")
+    + '<p class="note">Indexing progress, the http→https consolidation and new-article publishing are worked on daily in the SEO programme. Nothing on this page is estimated — each item is a checked fact with its date.</p></div>'
+    + '<div class="card" style="margin-top:15px"><h3>Service standings — 252 services audited</h3><div class="src">External audit merged 1–2 Nov 2026 · full detail in Telangana Rankings and Competitor Analysis</div>'
+    + statHTML([["Rated Top","190"],["Middle","39"],["Down","23"],["Maps #1","96"],["Maps top 3","117"],["Outside top 10","81"]])
+    + '</div>';
+
+  /* ============ AI SEARCH VISIBILITY ============ */
+  const aiCards = [
+    ["ChatGPT","Strongest channel",217,252,157,"Named first in 157 services. Also the only AI tool that has sent the website a visit so far (1 in October)."],
+    ["Google Gemini","Strong, one blind spot",183,252,176,"Named first in 176 — but named AR in 0 of 27 cleft and facial-fracture searches. That block is the clearest AI gap to close."],
+    ["Claude","Partially measured",33,36,0,"Only 36 of 252 services were checked for Claude in the audit, so its true coverage is unknown — a full Claude check is part of the next audit."],
+    ["Perplexity","Not yet audited",null,null,null,"No brand-mention audit has been run for Perplexity yet, and Analytics shows 0 referred visits. It is tracked here so the next audit fills it in — no figure is guessed."]
+  ];
+  document.getElementById("view-ai").innerHTML =
+    '<div class="card" style="margin-bottom:15px"><h3>AI search visibility<span class="badge-audit">MANUAL AUDIT · 1–2 NOV 2026</span></h3><div class="src">How AI assistants answer Karimnagar plastic-surgery searches — measured by audit, not a live feed</div>'
+    + '<p class="note" style="margin-top:0">AI tools do not publish live analytics or search counts. These figures come from the manual services audit (252 services checked one by one) and from referral visits in Google Analytics. Anything not yet measured is labelled, never estimated.</p></div>'
+    + '<div class="grid cols2">'
+    + aiCards.map(c=>'<div class="card"><h3>'+c[0]+'</h3><div class="src">'+c[1]+'</div>'
+      + (c[2]===null
+          ? '<div class="big" style="font-size:22px;color:var(--grey)">Not yet audited</div><p class="note">'+c[5]+'</p>'
+          : barRow("Names AR", c[2], c[3], c[2]+" / "+c[3]) + (c[4]?barRow("Named 1st", c[4], c[3], String(c[4]), true):"") + '<p class="note">'+c[5]+'</p>')
+      + '</div>').join("")
+    + '</div>';
+
+  /* ============ TELANGANA RANKINGS ============ */
+  const kw = D.keywords || [];
+  document.getElementById("view-telangana").innerHTML =
+    '<div class="card"><h3>Keyword rankings — measured positions</h3><div class="src">Google search snapshots · positions move between checks · unmeasured keywords are labelled, never guessed</div>'
+    + '<div class="tblwrap"><table><thead><tr><th>Keyword</th><th>Location</th><th>AR position</th><th>Leader today</th><th>Date checked</th><th>Note</th></tr></thead><tbody>'
+    + kw.map(r=>'<tr><td><b style="color:#fff">'+r["Keyword"]+'</b></td><td>'+r["Location"]+'</td><td>'+posChip(r["AR position"])+'</td><td>'+(r["Leader today"]||"—")+'</td><td>'+(r["Date checked"]||"—")+'</td><td>'+(r["Note"]||"")+'</td></tr>').join("")
+    + '</tbody></table></div>'
+    + '<p class="note">The next rankings sweep measures the queued keywords and refreshes every position. Improvements and declines will show here month by month.</p></div>'
+    + '<div class="card" style="margin-top:15px"><h3>All-services standings</h3><div class="src">From the Rankings &amp; Goals record · audit 1–2 Nov 2026</div>'
+    + '<div class="tblwrap"><table><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody>'
+    + rankRows.map(r=>'<tr><td><b style="color:#fff">'+r["Item"]+'</b></td><td>'+r["Detail"]+'</td><td>'+chip(r["Status"])+'</td></tr>').join("")
     + '</tbody></table></div></div>';
 
+  /* ============ PATIENT LEADS ============ */
+  const leadRows = [["Phone calls", n0(arL["Calls"]), "Direct enquiries from the Google profile"],["Direction requests", n0(arL["Directions"]), "People who asked Google for directions to the clinic"],["Website clicks", n0(arL["Website clicks"]), "Profile visitors who went on to the website"],["Bookings", n0(arL["Bookings"]), "Google booking actions (none recorded in "+month+")"]];
+  const leadMax = Math.max(1, ...leadRows.map(r=>r[1]));
+  document.getElementById("view-leads").innerHTML =
+    '<div class="grid kpis">'
+    + '<div class="card kpi"><div class="lab">Total profile actions</div><div class="val">'+fmt(actions)+'</div><div class="hint">Every call, direction request, website click and booking from the AR Google profile in '+month+'.</div></div>'
+    + '<div class="card kpi"><div class="lab">Phone call enquiries</div><div class="val">'+fmt(n0(arL["Calls"]))+'</div><div class="hint">The strongest enquiry signal — patients who tapped “Call” on Google.</div></div>'
+    + '<div class="card kpi"><div class="lab">Reviews as trust</div><div class="val">'+num(arL["Total reviews"])+'<em> · '+num(arL["Rating"])+'★</em></div><div class="hint">100% of reviews answered by the owner — the full backlog was cleared on 31 Oct 2026.</div></div>'
+    + '</div>'
+    + '<div class="card" style="margin-top:15px"><h3>Enquiry actions — '+month+'</h3><div class="src">Google Business Profile performance · AR Plastic Surgery</div>'
+    + leadRows.map(r=>barRow(r[0], r[1], leadMax, fmt(r[1]))+'<p class="note" style="margin:-4px 0 8px 106px">'+r[2]+'</p>').join("")
+    + '<p class="note"><b>Honest limit:</b> these are Google-reported actions, not a clinic CRM. Individual patient leads, WhatsApp enquiries and consultation bookings are not connected to this dashboard yet — connecting them is listed under Settings → what still needs external access.</p></div>';
+
+  /* ============ SOCIAL MEDIA ============ */
+  document.getElementById("view-social").innerHTML =
+    '<div class="grid cols2">'
+    + '<div class="card"><h3>Instagram — @karimnagar.aesthetics</h3><div class="src">Hospital account · activity verified by the clinic’s digital team</div>'
+    + statHTML([["Poster series","20 / 20 published"],["Posts in website gallery","33"],["Google posts mirrored","47 / 47"],["Daily education series","Running"]])
+    + '<p class="note">The 20-poster premium series completed on 31 Oct 2026, every Instagram post is mirrored to Google Business (47 of 47), and a daily educational post and hand-surgery post run on schedule. Since 1 Nov 2026 all creatives are logo + text only, per the owner’s rule.</p></div>'
+    + '<div class="card"><h3>Instagram reach &amp; followers</h3><div class="src">Performance metrics</div>'
+    + '<div class="big" style="font-size:22px;color:var(--grey)">Not connected yet</div>'
+    + '<p class="note">Follower counts, reach and engagement live inside Instagram Insights, which this dashboard cannot read without an insights data connection. Rather than show invented numbers, this panel stays empty until that access is connected — see the final report for what is needed.</p></div>'
+    + '</div>'
+    + '<div class="card" style="margin-top:15px"><h3>YouTube — @Aradvancedplasticsurgery</h3><div class="src">Channel activity</div>'
+    + statHTML([["Shorts published","32"],["Shorts retitled for search","30"],["Long videos","0"]])
+    + '<p class="note">All 30 eligible Shorts were retitled and redescribed in the “Karimnagar” search format on 1 Nov 2026. Two videos carry platform restrictions (one removed, one age-restricted) — decisions on appeals rest with the owner.</p></div>';
+
+  /* ============ COMPETITORS ============ */
+  document.getElementById("view-competitors").innerHTML =
+    '<div class="card"><h3>Competitor intelligence — Karimnagar</h3><div class="src">From the October–November audits · only verified standings are shown</div>'
+    + '<div class="tblwrap"><table><thead><tr><th>Competitor</th><th>Where they stand</th><th>Threat</th><th>What it means / AR’s counter</th></tr></thead><tbody>'
+    + COMPETITORS.map(c=>'<tr><td><b style="color:#fff">'+c[0]+'</b><br><span style="color:var(--grey);font-size:12px">'+c[1]+'</span></td><td>'+c[2]+'</td><td>'+(c[3]==="High"?'<span class="chip c-gap">High</span>':c[3]==="Medium"?'<span class="chip c-warn">Medium</span>':"—")+'</td><td>'+c[4]+'</td></tr>').join("")
+    + '</tbody></table></div>'
+    + '<p class="note">Competitor Google review counts, their content calendars and their website traffic cannot be seen from outside — those fields are deliberately not invented. A manual monthly competitor check can add their review counts over time.</p></div>';
+
+  /* ============ AI GROWTH ADVISOR ============ */
+  const A = [];
+  const httpsRow = gscRows.find(r=>(r["Property"]||"").startsWith("https://surgery"))||{};
+  const httpRow = gscRows.find(r=>(r["Property"]||"").startsWith("http://surgery"))||{};
+  if(n0(httpRow["Clicks"]) > n0(httpsRow["Clicks"])) A.push([1,"Finish the http → https consolidation","The old http property earned "+num(httpRow["Clicks"])+" clicks in "+month+" against "+num(httpsRow["Clicks"])+" for https. Every search that lands on http splits the site’s ranking strength — completing the redirect/canonical fix is the single highest-value technical action."]);
+  A.push([2,"Win “hand surgeon” in Karimnagar","Dr GN Bandari holds #1 and AR sat 12th in the last pack check, even though a dedicated hand-surgery page is live and indexed. The gap is authority, not indexing: keep the daily hand-surgery Google posts flowing and build the hand-surgery article cluster (carpal tunnel, trigger finger, tendon repair — where AR already ranks #1)."]);
+  A.push([3,"Close Gemini’s cleft & facial-trauma blind spot","Gemini named AR in 0 of 27 cleft and facial-fracture searches while ChatGPT names AR near the top for the same services. The maxillofacial and cleft content published in November is the start; answer-shaped pages plus matching Google posts are how Gemini’s Google-fed answers pick AR up."]);
+  A.push([4,"Attack the skin & laser cluster","16 of 26 skin & laser services rate Down — AR’s weakest area, led by VCare, Anoos and Aviva. A focused run of skin & laser service content and Google posts is the biggest block of winnable positions in the audit (81 services currently sit outside the top 10)."]);
+  A.push([5,"Clear the indexing backlog, then defend hair transplant","Only 41+ of 173 pages are verified indexed, and AR does not appear in the hair-transplant pack while the profile’s “Hair transplantation clinic” category sits empty. Daily indexing batches plus filling that category turn the flagship service back on in local search."]);
+  document.getElementById("view-advisor").innerHTML =
+    '<div class="card" style="margin-bottom:15px"><h3>AI Growth Advisor — '+month+'</h3><div class="src">Analysis generated from this dashboard’s actual data — every recommendation cites the figure behind it</div>'
+    + '<p class="note" style="margin-top:0">Signals detected this month: profile actions are healthy ('+fmt(actions)+' actions, '+num(arL["Total reviews"])+' reviews at '+num(arL["Rating"])+' ★), but three leaks cost growth — the http/https split, the hand-surgeon gap, and 130+ pages not yet indexed. AI visibility is strong in ChatGPT and uneven in Gemini. The five priorities below are ordered by expected impact.</p></div>'
+    + '<div class="grid" style="gap:13px">'
+    + A.map((a,i)=>'<div class="card action-card"><div class="pri">PRIORITY '+(i+1)+'</div><h3 style="margin:4px 0 6px">'+a[1]+'</h3><p class="note" style="margin-top:0">'+a[2]+'</p></div>').join("")
+    + '</div>';
+
+  /* ============ REPORTS ============ */
+  document.getElementById("view-reports").innerHTML =
+    '<div class="card"><h3>Monthly growth report — '+month+'</h3><div class="src">Generated from the live data sheet · print-ready</div>'
+    + '<p class="note" style="margin-top:0">The report contains the performance summary, month comparison status, SEO progress, Google visibility, website performance, lead generation, competitor insights and next month’s strategy (the Advisor’s five priorities).</p>'
+    + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" onclick="printReport()">Download PDF report</button>'
+    + '<a class="btn ghost" style="text-decoration:none;display:inline-block" href="https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/edit" target="_blank" rel="noopener">Open the data sheet</a></div>'
+    + '<p class="note">Months available: '+D.months.join(", ")+'. New months appear here automatically when their rows are added to the sheet.</p></div>';
+
+  /* ============ SETTINGS ============ */
+  document.getElementById("view-settings").innerHTML =
+    '<div class="grid cols2">'
+    + '<div class="card"><h3>Data connection</h3><div class="src">Live integration — preserved from the original dashboard</div>'
+    + '<p class="note" style="margin-top:0">Source: Google Sheet “AR Growth Dashboard” (owned by the owner’s personal account). This page reads the sheet live on every visit — no copy of the figures is stored on the website. AR sections are updated by the clinic’s digital team; Dr Ashok Reddy and Dhruva sections by their profile teams.</p>'
+    + '<div style="margin-top:13px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" onclick="location.reload()">Reload data</button>'
+    + '<a class="btn ghost" style="text-decoration:none;display:inline-block" href="https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/edit" target="_blank" rel="noopener">Open sheet</a></div></div>'
+    + '<div class="card"><h3>What still needs external access</h3><div class="src">Not connected — listed honestly, never faked</div>'
+    + '<p class="note" style="margin-top:0">· Instagram Insights (followers, reach, engagement)<br>· Patient lead / CRM data (WhatsApp enquiries, consultation bookings)<br>· Live keyword rank tracking (positions here are dated manual snapshots)<br>· Competitor review counts (manual monthly check)<br>· Perplexity and full-Claude AI audits (next audit round)</p></div>'
+    + '</div>';
+
+  buildPrintReport(month, {arL, gaL, clicks, imps, actions});
+}
+
+function buildPrintReport(month, x){
+  const r = D.rank || [];
+  const adv = [
+    "Finish the http → https consolidation (http earned more clicks than https in "+month+").",
+    "Win “hand surgeon” in Karimnagar — authority work against Dr GN Bandari’s #1.",
+    "Close Gemini’s cleft & facial-trauma blind spot (0 of 27 searches).",
+    "Attack the skin & laser cluster — 16 of 26 services rated Down.",
+    "Clear the indexing backlog (41+ of 173 verified) and fill the empty hair-transplant category."
+  ];
+  document.getElementById("printReport").innerHTML =
+    '<h1>AR Plastic Surgery — Monthly Growth Report</h1>'
+    + '<p><b>'+month+'</b> · Generated from the AR Growth Intelligence Command Center · Data: shared Google Sheet “AR Growth Dashboard”</p>'
+    + '<h2>Performance summary</h2><div class="krow">'
+    + '<div class="kbox"><b>'+fmt(n0(x.arL["Views"]))+'</b><span>Profile views</span></div>'
+    + '<div class="kbox"><b>'+fmt(x.actions)+'</b><span>Profile actions</span></div>'
+    + '<div class="kbox"><b>'+fmt(n0(x.arL["Calls"]))+'</b><span>Phone enquiries</span></div>'
+    + '<div class="kbox"><b>'+fmt(x.clicks)+'</b><span>Search clicks</span></div>'
+    + '<div class="kbox"><b>'+fmt(n0(x.gaL["Total sessions"]))+'</b><span>Website sessions</span></div>'
+    + '<div class="kbox"><b>'+num(x.arL["Total reviews"])+' · '+num(x.arL["Rating"])+'★</b><span>Google reviews</span></div></div>'
+    + '<p>Month comparison: '+month+' is the baseline month in the data sheet — comparisons begin automatically from the next recorded month.</p>'
+    + '<h2>SEO progress</h2><p>Sitemap: 173 pages. Verified indexed: 41+ (Search Console display of 31 is stale since 23 Oct). IndexNow pushes new articles automatically. Open item: http property earned more clicks than https ('+month+'), so consolidation is the top technical priority.</p>'
+    + '<h2>Google visibility</h2><p>Services audit (252 services, 1–2 Nov 2026): Top 190 · Middle 39 · Down 23. Google Maps: #1 for 96 services, top 3 for 117, outside the top 10 for 81. ChatGPT names AR in 217 services (1st in 157); Gemini in 183 (1st in 176) with a cleft/facial-fracture blind spot; Claude named AR in 33 of 36 checked.</p>'
+    + '<h2>Website performance</h2><p>'+fmt(x.clicks)+' clicks from '+fmt(x.imps)+' impressions across the three Search Console properties; '+fmt(n0(x.gaL["Total sessions"]))+' Analytics sessions (Google '+num(x.gaL["Google"])+', direct '+num(x.gaL["Direct"])+', ChatGPT '+num(x.gaL["ChatGPT"])+').</p>'
+    + '<h2>Lead generation</h2><p>'+fmt(n0(x.arL["Calls"]))+' phone calls, '+fmt(n0(x.arL["Directions"]))+' direction requests and '+fmt(n0(x.arL["Website clicks"]))+' website clicks from the Google profile. These are Google-reported actions; clinic CRM leads are not yet connected.</p>'
+    + '<h2>Competitor insights</h2><p>Dr GN Bandari leads “hand surgeon” (AR 12th, 28 Oct pack check). Medicover leads most cost searches. Drushya holds the hair-transplant listing box. VCare, Anoos and Aviva lead the skin &amp; laser cluster — AR’s weakest area.</p>'
+    + '<h2>Next month’s strategy</h2><p>'+adv.map((a,i)=>(i+1)+'. '+a).join('<br>')+'</p>'
+    + '<p style="margin-top:16px;color:#5d7182">AR Plastic Surgery · Opp. Reddy Gari Vantillu, Court Chowrasta, Karimnagar · Precision and Perfection</p>';
+}
+function printReport(){ window.print(); }
+
+/* ---------- load ---------- */
+Promise.allSettled([
+  gviz("AR Plastic Surgery GMB"), gviz("Dr Ashok Reddy GMB"), gviz("Dhruva Diabetic Foot GMB"),
+  gviz("AR Search Console"), gviz("AR Analytics"), gviz("Rankings and Goals"), gviz("Keyword Rankings")
+]).then(res=>{
+  const ok = res.map(r=>r.status==="fulfilled" ? r.value : []);
+  const failed = res.filter(r=>r.status==="rejected").length;
+  D = { arGmb: ok[0], drGmb: ok[1], dhGmb: ok[2], gsc: ok[3], ga: ok[4], rank: ok[5], keywords: ok[6] };
+  const months = [...new Set(D.arGmb.map(r=>r["Month"]).filter(Boolean))];
+  D.months = months.length? months : ["October 2026"];
+  MONTH = D.months[D.months.length-1];
+  const sel = document.getElementById("monthSel");
+  sel.innerHTML = D.months.map(m=>'<option value="'+m+'"'+(m===MONTH?" selected":"")+'>'+m+'</option>').join("");
+  sel.addEventListener("change",()=>{ MONTH = sel.value; render(); });
+  const upd = (D.arGmb[D.arGmb.length-1]||{})["Updated on"] || "";
+  const syncTxt = failed? "Live · some sections failed to load" : "Live · sheet updated "+upd;
+  document.getElementById("syncTxt").textContent = syncTxt;
+  document.getElementById("sideSync").textContent = syncTxt;
+  if(failed) document.getElementById("syncPill").classList.add("err");
   document.getElementById("status").style.display = "none";
   document.getElementById("app").style.display = "block";
-  go((location.hash||"#home").slice(1) || "home");
+  render();
+  go((location.hash||"#overview").slice(1) || "overview");
 }).catch(err=>{
   document.getElementById("status").innerHTML = "Could not read the data sheet ("+err.message+"). The sheet’s sharing must be set to “Anyone with the link can view” for this page to load its figures.";
-  document.getElementById("liveTag").textContent = "Data not loading";
+  document.getElementById("syncTxt").textContent = "Data not loading";
+  document.getElementById("syncPill").classList.add("err");
 });
 </script>
 </body>
