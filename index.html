@@ -42,6 +42,23 @@
   .view{display:none}
   .view.active{display:block;animation:viewIn .35s ease both}
   @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  /* ---------- Splash (logo animation — shows on EVERY open) ---------- */
+  #splash{position:fixed;inset:0;z-index:999;background:radial-gradient(1100px 700px at 50% 28%,var(--navy2),var(--navy) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:opacity .8s ease,visibility .8s;padding:20px;text-align:center}
+  #splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+  #splash .ring{width:196px;height:196px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;animation:splashRingPulse 2.4s ease-in-out infinite;flex:0 0 auto}
+  #splash .ring:before{content:"";position:absolute;inset:-13px;border-radius:50%;border:1px solid rgba(201,162,75,.55);animation:splashSpinSlow 14s linear infinite;border-top-color:transparent;border-bottom-color:transparent}
+  @keyframes splashSpinSlow{to{transform:rotate(360deg)}}
+  @keyframes splashRingPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,75,.40)}50%{box-shadow:0 0 0 30px rgba(201,162,75,0)}}
+  #splash img{width:184px;height:184px;border-radius:50%;animation:splashLogoIn 1.5s cubic-bezier(.2,.8,.25,1) both;box-shadow:0 22px 60px rgba(0,0,0,.5)}
+  @keyframes splashLogoIn{0%{transform:scale(.5);opacity:0;filter:blur(8px)}60%{opacity:1}100%{transform:scale(1);opacity:1;filter:blur(0)}}
+  #splash h1{color:#fff;font-family:"Manrope","Inter",sans-serif;font-size:30px;letter-spacing:4px;margin-top:30px;animation:splashFadeUp 1s .5s ease both;font-weight:800}
+  #splash h2{font-family:"Inter",sans-serif;color:#e6c87a;font-size:13px;letter-spacing:6px;font-weight:600;margin-top:9px;animation:splashFadeUp 1s .85s ease both}
+  #splash .loadline{width:150px;height:2px;background:rgba(255,255,255,.18);border-radius:2px;margin-top:26px;overflow:hidden;animation:splashFadeUp 1s 1s ease both}
+  #splash .loadline i{display:block;height:100%;width:40%;background:linear-gradient(90deg,#c9a24b,#e6c87a);border-radius:2px;animation:splashLoadSlide 1.2s ease-in-out infinite}
+  @keyframes splashLoadSlide{0%{transform:translateX(-110%)}100%{transform:translateX(400%)}}
+  #splash p{color:rgba(255,255,255,.6);font-size:12.5px;margin-top:16px;letter-spacing:1px;animation:splashFadeUp 1s 1.2s ease both}
+  @keyframes splashFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:560px){#splash h1{font-size:23px;letter-spacing:2.5px}#splash .ring{width:168px;height:168px}#splash img{width:156px;height:156px}}
   .grid{display:grid;gap:16px}
   .kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
   .cols2{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
@@ -127,6 +144,14 @@
 </head>
 <body>
 
+<div id="splash" title="Tap to enter">
+  <div class="ring"><img src="logo.png" alt="AR Plastic Surgery logo"></div>
+  <h1>AR PLASTIC SURGERY</h1>
+  <h2>GROWTH DASHBOARD</h2>
+  <div class="loadline"><i></i></div>
+  <p>PRECISION AND PERFECTION · TAP TO ENTER</p>
+</div>
+
 <div class="shell">
   <aside id="sidebar">
     <div class="brand">
@@ -176,6 +201,21 @@
 <div id="printReport"></div>
 
 <script>
+/* ---------- splash ---------- */
+/* Shows on EVERY open / reload / revisit — deliberately no
+   once-per-session check, so it is never suppressed. */
+(function(){
+  var sp = document.getElementById("splash");
+  if(!sp) return;
+  var hidden = false;
+  function hideSplash(){
+    if(hidden) return; hidden = true;
+    sp.classList.add("hide");
+    setTimeout(function(){ sp.style.display = "none"; }, 850);
+  }
+  sp.addEventListener("click", hideSplash);
+  setTimeout(hideSplash, 2600);
+})();
 const SHEET_ID = "1rVPsooJnVuNPle8L8oUMMoLVFb0gBpUyGhWkYXhQqDM";
 /* ---------- navigation ---------- */
 const NAV = [
