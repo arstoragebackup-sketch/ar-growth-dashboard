@@ -141,8 +141,31 @@
     #printReport .kbox span{font-size:10.5px;color:#64798f;text-transform:uppercase;letter-spacing:.5px}
   }
 </style>
+<style>
+  /* ---------- Password gate (opens on every visit — owner rule, 5 Nov 2026) ---------- */
+  #pwgate{position:fixed;inset:0;z-index:3000;background:radial-gradient(1100px 700px at 50% 28%,#16305a,#0B2447 72%);display:flex;align-items:center;justify-content:center;padding:20px}
+  #pwgate.hide{display:none}
+  #pwgate .card{background:#fff;border-radius:14px;padding:28px 24px;width:min(360px,94vw);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  #pwgate img{width:64px;height:64px;border-radius:50%;margin-bottom:10px}
+  #pwgate h2{margin:0 0 4px;color:#0B2447;font-size:1.15rem}
+  #pwgate p{margin:0 0 16px;color:#64748b;font-size:.86rem}
+  #pwgate input{width:100%;padding:11px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:1rem;text-align:center}
+  #pwgate button{width:100%;margin-top:12px;background:#2563eb;color:#fff;border:0;border-radius:8px;padding:11px;font-size:.95rem;font-weight:600;cursor:pointer}
+  #pwgate .err{color:#b91c1c;font-size:.86rem;min-height:1.15em;margin-top:10px}
+</style>
 </head>
 <body>
+
+<div id="pwgate" role="dialog" aria-label="Password required">
+  <div class="card">
+    <img src="logo.png" alt="AR Plastic Surgery logo">
+    <h2>Growth Dashboard</h2>
+    <p>Enter the password to open.</p>
+    <input type="password" id="pwgIn" inputmode="numeric" autocomplete="off" placeholder="Password">
+    <button id="pwgBtn" type="button">Open</button>
+    <div class="err" id="pwgErr"></div>
+  </div>
+</div>
 
 <div id="splash" title="Tap to enter">
   <div class="ring"><img src="logo.png" alt="AR Plastic Surgery logo"></div>
@@ -673,6 +696,19 @@ Promise.allSettled([
   document.getElementById("syncTxt").textContent = "Data not loading";
   document.getElementById("syncPill").classList.add("err");
 });
+</script>
+<script>
+/* Password gate — checked on every open; nothing is remembered between visits. */
+(function(){
+  var g = document.getElementById('pwgate'), i = document.getElementById('pwgIn'), e = document.getElementById('pwgErr');
+  function open(){
+    if (i.value === '9696') { g.classList.add('hide'); }
+    else { e.textContent = 'Wrong password.'; i.value = ''; i.focus(); }
+  }
+  document.getElementById('pwgBtn').addEventListener('click', open);
+  i.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') open(); });
+  setTimeout(function(){ try { i.focus(); } catch (err) {} }, 350);
+})();
 </script>
 </body>
 </html>
